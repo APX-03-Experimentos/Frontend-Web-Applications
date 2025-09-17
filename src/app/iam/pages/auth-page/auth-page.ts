@@ -3,6 +3,7 @@ import {NgOptimizedImage} from '@angular/common';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {FormsModule} from '@angular/forms';
 import {LoginBox} from '../../components/login-box/login-box';
+import {RegisterBox} from '../../components/register-box/register-box';
 
 @Component({
   selector: 'app-auth-page',
@@ -11,7 +12,8 @@ import {LoginBox} from '../../components/login-box/login-box';
     MatButtonToggleGroup,
     MatButtonToggle,
     FormsModule,
-    LoginBox
+    LoginBox,
+    RegisterBox
   ],
   templateUrl: './auth-page.html',
   standalone: true,

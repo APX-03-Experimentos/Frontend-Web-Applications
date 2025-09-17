@@ -1,0 +1,43 @@
+<mat-card>
+  <div class="title">
+    <h3>Crear Cuenta</h3>
+    <h4>Únete a LearnHive como estudiante o profesor</h4>
+  </div>
+
+  <mat-card-content>
+    <h4 style="text-align: start">Tipo de usuario:</h4>
+    <mat-button-toggle-group name="authType" aria-label="Tipo de Autenticación" [(ngModel)]="userType">
+      <mat-button-toggle value="student">Estudiante</mat-button-toggle>
+      <mat-button-toggle value="teacher">Profesor</mat-button-toggle>
+    </mat-button-toggle-group>
+    <form>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre Completo</mat-label>
+        <input matInput placeholder="Ingresa tu nombre completo" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo Electrónico</mat-label>
+        <input matInput placeholder="Ingresa tu correo electrónico" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" placeholder="Ingresa tu contraseña" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirmar Contraseña</mat-label>
+        <input matInput type="password" placeholder="Confirma tu contraseña" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width">
+        Registrarse
+      </button>
+
+      <p class="forgot-password">
+        Al registrarte, aceptas nuestros términos de servicio y política de privacidad.
+      </p>
+    </form>
+  </mat-card-content>
+</mat-card>

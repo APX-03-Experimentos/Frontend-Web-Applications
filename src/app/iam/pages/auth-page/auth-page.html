@@ -7,6 +7,10 @@
     <mat-button-toggle value="login">Iniciar Sesión</mat-button-toggle>
     <mat-button-toggle value="register">Registrarse</mat-button-toggle>
   </mat-button-toggle-group>
-  <p>{{authType}}</p>
-  <app-login-box></app-login-box>
+  @if (authType == "login")
+  {
+    <app-login-box></app-login-box>
+  } @else if (authType == "register") {
+    <app-register-box></app-register-box>
+  }
 </div>
