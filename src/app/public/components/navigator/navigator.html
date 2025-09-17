@@ -1,0 +1,22 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" mode="side" fixedInViewport>
+    <div style="height: 40px"></div>
+    <div class="logo-container">
+      <img ngSrc="/assets/learnhive_logo_transparent.png" alt="LearnHive Logo" class="logo" width="180" height="180"/>
+      <h2 class="brand-title">LearnHive</h2>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="toolbar" color="primary">
+        <button mat-icon-button (click)="drawer.toggle()" class="menu-button" aria-label="Toggle sidenav">
+          <mat-icon>menu</mat-icon>
+        </button>
+      <span class="toolbar-title">LearnHive</span>
+    </mat-toolbar>
+    <!-- Contenido -->
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
