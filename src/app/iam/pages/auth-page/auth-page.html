@@ -1,0 +1,11 @@
+<div class="main">
+  <img ngSrc="/assets/learnhive_logo.jpg" alt="Logo LearnHive" height="128" width="128" priority>
+
+  <h2>Bienvenido a LearnHive</h2>
+  <h4>Plataforma integral de análisis y gestión educativa.</h4>
+  <mat-button-toggle-group name="authType" aria-label="Tipo de Autenticación" value="login" [(ngModel)]="authType">
+    <mat-button-toggle value="login">Iniciar Sesión</mat-button-toggle>
+    <mat-button-toggle value="register">Registrarse</mat-button-toggle>
+  </mat-button-toggle-group>
+  <p>{{authType}}</p>
+</div>
