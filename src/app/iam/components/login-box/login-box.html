@@ -1,0 +1,28 @@
+<mat-card>
+    <div class="title">
+      <h3>Iniciar Sesión</h3>
+      <h4>Ingresa tus credenciales para acceder</h4>
+    </div>
+
+  <mat-card-content>
+    <form>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre de usuario</mat-label>
+        <input matInput placeholder="Ingresa tu usuario" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" placeholder="Ingresa tu contraseña" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width">
+        Iniciar Sesión
+      </button>
+
+      <p class="forgot-password">
+        <a href="#">¿Olvidaste tu contraseña?</a>
+      </p>
+    </form>
+  </mat-card-content>
+</mat-card>

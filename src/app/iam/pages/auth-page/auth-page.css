@@ -1,4 +1,8 @@
 .main {
-  padding-top: 50px;
-  text-align: center;
+  display: flex;
+  flex-direction: column; /* stack items vertically */
+  align-items: center;    /* center items horizontally */
+  justify-content: center;/* center vertically if parent has height */
+  min-height: 100vh;      /* optional: make it full height to center on page */
+  text-align: center;     /* also centers text content */
 }
