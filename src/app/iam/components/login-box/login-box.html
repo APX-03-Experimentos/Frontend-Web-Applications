@@ -8,15 +8,35 @@
     <form>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Correo electrónico</mat-label>
-        <input matInput placeholder="Ingresa tu correo electrónico" required>
+        <input
+          matInput
+          placeholder="Ingresa tu correo electrónico"
+          (change)="invalidCredentials = false"
+          [(ngModel)]="username"
+          name="username"
+          required
+        >
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
-        <input matInput type="password" placeholder="Ingresa tu contraseña" required>
+        <input
+          matInput
+          type="password"
+          placeholder="Ingresa tu contraseña"
+          (change)="invalidCredentials = false"
+          [(ngModel)]="password"
+          name="password"
+          required
+        >
       </mat-form-field>
 
-      <button mat-raised-button color="primary" class="full-width">
+      @if (invalidCredentials)
+      {
+        <p class="red-text">El usuario o la contraseña son incorrectos.</p>
+      }
+
+      <button mat-raised-button color="primary" class="full-width" (click)="LogIn()">
         Iniciar Sesión
       </button>
 

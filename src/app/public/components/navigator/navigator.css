@@ -130,8 +130,8 @@ mat-toolbar button[mat-icon-button]:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-.nav-links .logout {
-  color: #b71c1c;
+.nav-links .red-text {
+  color: #000000;
 }
 
 /* Botón hamburguesa */

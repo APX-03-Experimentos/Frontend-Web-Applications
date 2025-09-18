@@ -7,31 +7,32 @@
   <mat-card-content>
     <h4 style="text-align: start">Tipo de usuario:</h4>
     <mat-button-toggle-group name="authType" aria-label="Tipo de Autenticación" [(ngModel)]="userType">
-      <mat-button-toggle value="student">Estudiante</mat-button-toggle>
-      <mat-button-toggle value="teacher">Profesor</mat-button-toggle>
+      <mat-button-toggle value="ROLE_STUDENT">Estudiante</mat-button-toggle>
+      <mat-button-toggle value="ROLE_TEACHER">Profesor</mat-button-toggle>
     </mat-button-toggle-group>
     <form>
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Nombre Completo</mat-label>
-        <input matInput placeholder="Ingresa tu nombre completo" required>
+        <mat-label>Nombre de Usuario</mat-label>
+        <input matInput [(ngModel)]="username" name="username" placeholder="Ingresa tu nombre de usuario" required>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Correo Electrónico</mat-label>
-        <input matInput placeholder="Ingresa tu correo electrónico" required>
+        <input matInput [(ngModel)]="email" name="email" placeholder="Ingresa tu correo electrónico" required>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
-        <input matInput type="password" placeholder="Ingresa tu contraseña" required>
+        <input matInput (ngModelChange)="passwordsMatch = true" [(ngModel)]="password" name="password" type="password" placeholder="Ingresa tu contraseña" required>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Confirmar Contraseña</mat-label>
-        <input matInput type="password" placeholder="Confirma tu contraseña" required>
+        <input matInput (ngModelChange)="passwordsMatch = true" [(ngModel)]="confirmPassword" name="confirmPassword" type="password" placeholder="Confirma tu contraseña" required>
       </mat-form-field>
+      @if (!passwordsMatch) { <p>Las contraseñas no coinciden.</p> }
 
-      <button mat-raised-button color="primary" class="full-width">
+      <button mat-raised-button color="primary" class="full-width" (click)="SignUp()">
         Registrarse
       </button>
 
