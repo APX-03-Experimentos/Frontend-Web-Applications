@@ -10,6 +10,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {
   CreateAssignmentDialog
 } from '../../../assignments/components/create-assignment-dialog/create-assignment-dialog';
+import {AuthService} from '../../../iam/services/auth.service';
 
 @Component({
   selector: 'app-course-view-page',
@@ -23,6 +24,8 @@ import {
 })
 export class CourseViewPage implements OnInit {
 
+  userRole: string = "";
+
   preCourseId: number | undefined = undefined;
 
   course: Course | undefined;
@@ -33,7 +36,8 @@ export class CourseViewPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private loadingService: LoadingService,
-    private dialog: MatDialog) {}
+    private dialog: MatDialog,
+    private authService: AuthService) {}
 
   ngOnInit() {
     if (!this.tokenService.isLoggedIn)
@@ -46,6 +50,7 @@ export class CourseViewPage implements OnInit {
       this.preCourseId = +courseIdParam;
     }
 
+    this.FetchUserRole()
     this.FetchCourseInfo()
   }
 
@@ -73,6 +78,23 @@ export class CourseViewPage implements OnInit {
       },
       hasBackdrop: true,
       disableClose: true
+    })
+  }
+
+  FetchUserRole() {
+    let fetchEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(fetchEnded);
+    this.authService.fetchLoggedUser().subscribe({
+      next: result => {
+        this.userRole = result.roles[0];
+      },
+      error: err => {
+        console.log(err);
+        fetchEnded.emit();
+      },
+      complete: () => {
+        fetchEnded.emit();
+      }
     })
   }
 
