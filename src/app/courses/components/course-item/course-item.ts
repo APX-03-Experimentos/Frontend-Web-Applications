@@ -3,6 +3,7 @@ import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
 import {Course} from '../../model/course.entity';
 import {NgOptimizedImage} from '@angular/common';
 import {MatButton} from '@angular/material/button';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-course-item',
@@ -11,7 +12,8 @@ import {MatButton} from '@angular/material/button';
     MatCardContent,
     MatCardImage,
     NgOptimizedImage,
-    MatButton
+    MatButton,
+    RouterLink
   ],
   templateUrl: './course-item.html',
   standalone: true,

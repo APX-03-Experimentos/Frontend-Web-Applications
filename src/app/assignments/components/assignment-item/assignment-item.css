@@ -1,0 +1,20 @@
+.assignment-card{
+  padding: 20px;
+  height: 120px;
+  width: 50%;
+  justify-content: center;
+}
+
+.assignment-card .card-content {
+  display: flex;
+  justify-content: space-between; /* separa info y botón */
+  align-items: center;
+}
+
+.info-section {
+  flex: 1
+}
+
+.actions-section {
+  margin-left: 1rem;
+}

@@ -1,0 +1,5 @@
+<div class="assignments-container">
+  @for (assignment of assignments; track assignment.id) {
+    <app-assignment-item [assignment]="assignment"></app-assignment-item>
+  }
+</div>

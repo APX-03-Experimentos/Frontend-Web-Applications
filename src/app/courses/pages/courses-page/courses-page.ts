@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {CreateCourseBox} from '../../components/create-course-box/create-course-box';
 import {CourseItem} from '../../components/course-item/course-item';
 import {CourseList} from '../../components/course-list/course-list';
-import {CoursesService} from '../../services/courses.service';
 import {AuthService} from '../../../iam/services/auth.service';
 import {LoadingService} from '../../../shared/services/loading.service';
 import {JoinCourseBox} from '../../components/join-course-box/join-course-box';
+import {TokenService} from '../../../shared/services/token.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-courses-page',
@@ -23,10 +24,16 @@ export class CoursesPage implements OnInit {
 
   userRole: string = "";
 
-  constructor(private authService: AuthService, private loadingService:LoadingService) {
-  }
+  constructor(private authService: AuthService,
+              private tokenService: TokenService,
+              private loadingService:LoadingService,
+              private router: Router) {}
 
   ngOnInit() {
+    if (!this.tokenService.isLoggedIn)
+    {
+      this.router.navigate(["/no-access"])
+    }
     this.fetchLoggedUserRole();
   }
 

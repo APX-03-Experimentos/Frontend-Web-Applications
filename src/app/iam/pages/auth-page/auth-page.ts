@@ -5,6 +5,8 @@ import {FormsModule} from '@angular/forms';
 import {LoginBox} from '../../components/login-box/login-box';
 import {RegisterBox} from '../../components/register-box/register-box';
 import {AuthService} from '../../services/auth.service';
+import {TokenService} from '../../../shared/services/token.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-auth-page',
@@ -20,6 +22,16 @@ import {AuthService} from '../../services/auth.service';
   standalone: true,
   styleUrl: './auth-page.css'
 })
-export class AuthPage {
+export class AuthPage implements OnInit {
+
+  constructor(private tokenService: TokenService, private router: Router) {}
+
+  ngOnInit() {
+    if (this.tokenService.isLoggedIn)
+    {
+      this.router.navigate(['/courses']);
+    }
+  }
+
   authType: string = "login";
 }

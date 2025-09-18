@@ -4,4 +4,5 @@ export const environment = {
   authenticationEndpointPath: '/authentication',
   usersEndpointPath: '/users',
   coursesEndpointPath: '/courses',
+  assignmentsEndpointPath: '/assignments',
 };
