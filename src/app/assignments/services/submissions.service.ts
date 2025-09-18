@@ -20,6 +20,10 @@ export class SubmissionsService extends BaseService<Submission> {
     return this.http.get<Submission[]>(`${this.resourcePath()}/assignment/${assignmentId}`, this.httpOptions)
   }
 
+  GetSubmissionsByCourseId(courseId: number | undefined): Observable<Submission[]> {
+    return this.http.get<Submission[]>(`${this.resourcePath()}/course/${courseId}`, this.httpOptions)
+  }
+
   SendSubmission(submission:{assignmentId: number, content: string, imageUrl: string}): Observable<Submission> {
     console.log(submission)
     return this.http.post<Submission>(`${this.resourcePath()}`, {

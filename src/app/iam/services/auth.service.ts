@@ -39,4 +39,8 @@ export class AuthService extends BaseService<User> {
   fetchLoggedUser(): Observable<User> {
     return this.http.get<User>(`${this.resourcePath()}/me`, this.httpOptions)
   }
+
+  GetStudentsFromCourse(courseId: number | undefined): Observable<User[]> {
+    return this.http.get<User[]>(`${this.resourcePath()}/group/${courseId}`, this.httpOptions);
+  }
 }

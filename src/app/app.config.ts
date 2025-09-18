@@ -11,10 +11,12 @@ import {HttpClient, provideHttpClient} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {provideNativeDateAdapter} from '@angular/material/core';
+import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
 export const HttpLoaderFactory = (http: HttpClient)=> new TranslateHttpLoader();
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideCharts(withDefaultRegisterables()),
     provideNativeDateAdapter(),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),

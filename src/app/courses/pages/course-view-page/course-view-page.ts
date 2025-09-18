@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {CoursesService} from '../../services/courses.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {TokenService} from '../../../shared/services/token.service';
 import {Course} from '../../model/course.entity';
 import {LoadingService} from '../../../shared/services/loading.service';
@@ -11,12 +11,14 @@ import {
   CreateAssignmentDialog
 } from '../../../assignments/components/create-assignment-dialog/create-assignment-dialog';
 import {AuthService} from '../../../iam/services/auth.service';
+import {User} from '../../../iam/model/user.entity';
 
 @Component({
   selector: 'app-course-view-page',
   imports: [
     AssignmentList,
-    MatButton
+    MatButton,
+    RouterLink
   ],
   templateUrl: './course-view-page.html',
   standalone: true,
@@ -25,6 +27,8 @@ import {AuthService} from '../../../iam/services/auth.service';
 export class CourseViewPage implements OnInit {
 
   userRole: string = "";
+
+  teacher: User | undefined;
 
   preCourseId: number | undefined = undefined;
 
@@ -67,6 +71,7 @@ export class CourseViewPage implements OnInit {
       },
       complete: () => {
         fetchEnded.emit()
+        this.FetchTeacherData()
       }
     })
   }
@@ -94,6 +99,23 @@ export class CourseViewPage implements OnInit {
       },
       complete: () => {
         fetchEnded.emit();
+      }
+    })
+  }
+
+  FetchTeacherData() {
+    let fetchEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(fetchEnded);
+    this.authService.getById(this.course?.teacherId).subscribe({
+      next: result => {
+        this.teacher = result;
+      },
+      error: err => {
+        console.log(err);
+        fetchEnded.emit()
+      },
+      complete: () => {
+        fetchEnded.emit()
       }
     })
   }

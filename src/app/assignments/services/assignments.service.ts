@@ -20,7 +20,7 @@ export class AssignmentsService extends BaseService<Assignment>{
     this.assignmentsUpdated.emit();
   }
 
-  GetAssignmentsByCourseId(courseId: number): Observable<Assignment[]> {
+  GetAssignmentsByCourseId(courseId: number | undefined): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${this.resourcePath()}/course/${courseId}`, this.httpOptions)
   }
 
