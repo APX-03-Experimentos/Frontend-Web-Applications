@@ -36,6 +36,7 @@ export class AssignmentList implements OnInit {
       this.assignmentsService.GetAssignmentsByCourseId(this.courseId).subscribe({
         next: data => {
           this.assignments = data;
+          this.assignments.reverse();
           console.log(this.assignments)
         },
         error: err => {

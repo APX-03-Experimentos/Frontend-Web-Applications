@@ -1,0 +1,7 @@
+<div class="submission-list-container">
+  @for (submission of submissions; track submission.id)
+  {
+    <app-submission-item [submission]="submission"></app-submission-item>
+  }
+</div>
+

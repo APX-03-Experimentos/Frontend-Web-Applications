@@ -1,0 +1,111 @@
+import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Assignment} from '../../model/assignment.entity';
+import {TokenService} from '../../../shared/services/token.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AssignmentsService} from '../../services/assignments.service';
+import {LoadingService} from '../../../shared/services/loading.service';
+import {NgOptimizedImage} from '@angular/common';
+import {MatIcon} from '@angular/material/icon';
+import {SubmissionList} from '../../components/submission-list/submission-list';
+import {User} from '../../../iam/model/user.entity';
+import {AuthService} from '../../../iam/services/auth.service';
+import {MatButton} from '@angular/material/button';
+import {MatDialog} from '@angular/material/dialog';
+import {SubmissionCreateDialog} from '../../components/submission-create-dialog/submission-create-dialog';
+
+@Component({
+  selector: 'app-assignment-view-page',
+  imports: [
+    NgOptimizedImage,
+    MatIcon,
+    SubmissionList,
+    MatButton
+  ],
+  templateUrl: './assignment-view-page.html',
+  standalone: true,
+  styleUrl: './assignment-view-page.css'
+})
+export class AssignmentViewPage implements OnInit {
+
+  preAssignmentId: number = 0;
+
+  userRole: string = "";
+  assignment: Assignment | undefined;
+
+  constructor(private tokenService: TokenService,
+              private router: Router,
+              private assignmentService: AssignmentsService,
+              private route: ActivatedRoute,
+              private loadingService: LoadingService,
+              private authService: AuthService,
+              private dialog: MatDialog) {
+  }
+
+  ngOnInit() {
+    if (!this.tokenService.isLoggedIn)
+    {
+      this.router.navigate(["/no-access"])
+    }
+
+    const preAssignmentIdParam = this.route.snapshot.paramMap.get('assignmentId');
+    if (preAssignmentIdParam) {
+      this.preAssignmentId = +preAssignmentIdParam;
+    }
+
+    this.FetchUserRole();
+    this.FetchAssignmentInfo();
+  }
+  FetchAssignmentInfo() {
+    let fetchEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(fetchEnded)
+    this.assignmentService.getById(this.preAssignmentId).subscribe({
+      next: result => {
+        this.assignment = result;
+      },
+      error: err => {
+        console.log(err);
+        fetchEnded.emit();
+      },
+      complete: () => {
+        fetchEnded.emit();
+      }
+    })
+  }
+
+  FetchUserRole() {
+    let fetchEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(fetchEnded);
+    this.authService.fetchLoggedUser().subscribe({
+      next: result => {
+        this.userRole = result.roles[0];
+      },
+      error: err => {
+        console.log(err);
+        fetchEnded.emit();
+      },
+      complete: () => {
+        fetchEnded.emit();
+      }
+    })
+  }
+
+  GetFormattedDate(): string {
+    if (!this.assignment?.deadline) return '';
+    const date = new Date(this.assignment.deadline);
+    return date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+  }
+
+  OpenCreateSubmissionDialog(): void {
+    this.dialog.open(SubmissionCreateDialog, {
+      data: {
+        assignmentId: this.preAssignmentId
+      },
+      hasBackdrop: true,
+      disableClose: true
+    })
+  }
+}

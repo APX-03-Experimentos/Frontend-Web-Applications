@@ -1,0 +1,14 @@
+<mat-dialog-content>
+  <h1>Entrega tu Trabajo</h1>
+
+  <mat-form-field>
+    <mat-label>
+      Contenido
+    </mat-label>
+    <textarea matInput [(ngModel)]="content"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cancelar</button>
+  <button mat-flat-button (click)="SendSubmission()">Enviar</button>
+</mat-dialog-actions>

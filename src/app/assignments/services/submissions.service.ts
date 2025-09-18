@@ -1,0 +1,36 @@
+import {EventEmitter, Injectable} from '@angular/core';
+import {BaseService} from '../../shared/services/base.service';
+import {Submission} from '../model/submission.entity';
+import {environment} from '../../../environments/environment.development';
+import {Observable} from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SubmissionsService extends BaseService<Submission> {
+
+  submissionsUpdated: EventEmitter<any> = new EventEmitter();
+
+  constructor() {
+    super();
+    this.resourceEndpoint = environment.submissionsEndpointPath;
+  }
+
+  GetSubmissionsByAssignmentId(assignmentId: number): Observable<Submission[]> {
+    return this.http.get<Submission[]>(`${this.resourcePath()}/assignment/${assignmentId}`, this.httpOptions)
+  }
+
+  SendSubmission(submission:{assignmentId: number, content: string, imageUrl: string}): Observable<Submission> {
+    console.log(submission)
+    return this.http.post<Submission>(`${this.resourcePath()}`, {
+      assignmentId: submission.assignmentId,
+      content: submission.content,
+      imageUrl: submission.imageUrl,
+    },this.httpOptions)
+  }
+
+  EmitUpdate(): void {
+    this.submissionsUpdated.emit();
+  }
+
+}

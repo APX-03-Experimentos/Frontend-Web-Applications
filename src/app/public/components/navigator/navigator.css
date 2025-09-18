@@ -31,7 +31,8 @@ mat-toolbar {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra más marcada */
   transition: all 0.3s ease-in-out;
   z-index: 10;
-  position: fixed;
+  position: sticky;
+  top: 0;
 }
 
 /* Cambios al pasar el mouse (dinamismo extra si aplicas hover a algún elemento) */

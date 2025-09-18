@@ -28,6 +28,4 @@ export class AssignmentsService extends BaseService<Assignment>{
     return this.http.post<Assignment>(`${this.resourcePath()}`, assignment, this.httpOptions)
   }
 
-
-
 }

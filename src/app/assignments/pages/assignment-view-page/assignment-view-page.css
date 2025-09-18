@@ -1,0 +1,64 @@
+.assignment-base-column {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  width: 100%;
+  top: 80px;
+  z-index: 999;
+}
+
+.assignment-base-column .submissions-indicator {
+  margin-top: 2%;
+  margin-left: 10%
+}
+
+.assignment-info-container {
+  display: flex;
+  flex-direction: row;
+  background-color: #a5d7f4;
+  width: 100%;
+  height: 40%;
+  align-items: center;
+}
+
+.assignment-info-container img {
+  border-radius: 20%;
+  margin: 30px 30px 30px 60px;
+  max-height: 70%;
+}
+
+.assignment-info-column {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.assignment-info-column p {
+  font-size: 20px;
+}
+
+.assignment-deadline-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.assignment-deadline-container mat-icon {
+  margin-right: 10px;
+}
+
+.assignment-deadline-container p {
+  font-size: 20px;
+}
+
+.submissions-add-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 8%;
+}
+
+.submissions-add-bar button {
+  margin-left: auto;
+}

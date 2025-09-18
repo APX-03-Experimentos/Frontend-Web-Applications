@@ -1,0 +1,31 @@
+<div class="assignment-base-column">
+  <div class="assignment-info-container">
+    <img
+      ngSrc="https://material.angular.dev/assets/img/examples/shiba2.jpg"
+      priority
+      alt="Photo of a Shiba Inu"
+      width="200"
+      height="200"
+    >
+    <div class="assignment-info-column">
+      <h1>{{assignment?.title}}</h1>
+      <p>{{assignment?.description}}</p>
+      <div class="assignment-deadline-container">
+        <mat-icon>schedule</mat-icon><p>Vence el: {{GetFormattedDate()}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="submissions-add-bar">
+    @if (userRole === "ROLE_STUDENT") {
+      <h1 class="submissions-indicator">Tus entregas: </h1>
+      <button mat-flat-button (click)="OpenCreateSubmissionDialog()">Añadir Entrega</button>
+    } @else if (userRole === "ROLE_TEACHER") {
+      <h1 class="submissions-indicator">Entregas: </h1>
+    }
+  </div>
+
+
+</div>
+<div class="submissions-list-container">
+  <app-submission-list [assignmentId]="preAssignmentId"></app-submission-list>
+</div>

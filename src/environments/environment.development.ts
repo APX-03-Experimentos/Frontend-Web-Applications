@@ -5,4 +5,5 @@ export const environment = {
   usersEndpointPath: '/users',
   coursesEndpointPath: '/courses',
   assignmentsEndpointPath: '/assignments',
+  submissionsEndpointPath: '/submissions',
 };

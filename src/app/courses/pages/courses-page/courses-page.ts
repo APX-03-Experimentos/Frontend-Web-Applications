@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {CreateCourseBox} from '../../components/create-course-box/create-course-box';
-import {CourseItem} from '../../components/course-item/course-item';
 import {CourseList} from '../../components/course-list/course-list';
 import {AuthService} from '../../../iam/services/auth.service';
 import {LoadingService} from '../../../shared/services/loading.service';
@@ -12,7 +11,6 @@ import {Router} from '@angular/router';
   selector: 'app-courses-page',
   imports: [
     CreateCourseBox,
-    CourseItem,
     CourseList,
     JoinCourseBox
   ],

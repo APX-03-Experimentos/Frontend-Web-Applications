@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {MatCard, MatCardContent, MatCardImage} from '@angular/material/card';
 import {Course} from '../../model/course.entity';
-import {NgOptimizedImage} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
 
@@ -11,7 +10,6 @@ import {RouterLink} from '@angular/router';
     MatCard,
     MatCardContent,
     MatCardImage,
-    NgOptimizedImage,
     MatButton,
     RouterLink
   ],

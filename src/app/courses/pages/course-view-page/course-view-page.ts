@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {CoursesService} from '../../services/courses.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TokenService} from '../../../shared/services/token.service';
 import {Course} from '../../model/course.entity';
 import {LoadingService} from '../../../shared/services/loading.service';
-import {AssignmentItem} from '../../../assignments/components/assignment-item/assignment-item';
 import {AssignmentList} from '../../../assignments/components/assignment-list/assignment-list';
 import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
@@ -15,7 +14,6 @@ import {
 @Component({
   selector: 'app-course-view-page',
   imports: [
-    AssignmentItem,
     AssignmentList,
     MatButton
   ],
@@ -52,17 +50,18 @@ export class CourseViewPage implements OnInit {
   }
 
   FetchCourseInfo(): void {
-    this.loadingService.startLoadingDialog();
+    let fetchEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(fetchEnded);
     this.coursesService.getById(this.preCourseId).subscribe({
       next: result => {
         this.course = result;
       }, error: err => {
         console.log(err);
-        this.loadingService.stopLoadingDialog()
-        this.router.navigate(["/no-access"]);
+        fetchEnded.emit()
+        this.router.navigate(["/no-access"]).then(r => {});
       },
       complete: () => {
-        this.loadingService.stopLoadingDialog()
+        fetchEnded.emit()
       }
     })
   }

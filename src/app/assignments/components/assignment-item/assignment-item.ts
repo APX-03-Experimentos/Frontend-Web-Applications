@@ -1,15 +1,18 @@
 import {Component, Input} from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
+import {MatCard} from '@angular/material/card';
 import {Assignment} from '../../model/assignment.entity';
 import {MatButton} from '@angular/material/button';
+import {RouterLink} from '@angular/router';
+import {User} from '../../../iam/model/user.entity';
+import {AuthService} from '../../../iam/services/auth.service';
+import {SubmissionsService} from '../../services/submissions.service';
 
 @Component({
   selector: 'app-assignment-item',
   imports: [
     MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatButton
+    MatButton,
+    RouterLink
   ],
   templateUrl: './assignment-item.html',
   standalone: true,
