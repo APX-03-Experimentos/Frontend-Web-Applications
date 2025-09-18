@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatCard, MatCardContent} from '@angular/material/card';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -28,8 +28,6 @@ import {Router} from '@angular/router';
   styleUrl: './register-box.css'
 })
 export class RegisterBox {
-
-  @Output() succesfullyRegistered: EventEmitter<any> = new EventEmitter();
 
   userType: string = "ROLE_STUDENT";
   username: string = "";
