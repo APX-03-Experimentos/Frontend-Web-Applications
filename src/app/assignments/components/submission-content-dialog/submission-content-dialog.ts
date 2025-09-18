@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import {Submission} from '../../model/submission.entity';
 import {AuthService} from '../../../iam/services/auth.service';
@@ -8,6 +8,7 @@ import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SubmissionsService} from '../../services/submissions.service';
+import {LoadingService} from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-submission-content-dialog',
@@ -38,6 +39,7 @@ export class SubmissionContentDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {submission: Submission},
     private dialogRef: MatDialogRef<SubmissionContentDialog>,
     private authService: AuthService,
+    private loadingService: LoadingService
   ) {
     this.gradeForm = this.fb.group({
       grade: [
@@ -70,10 +72,18 @@ export class SubmissionContentDialog implements OnInit {
     if (this.gradeForm.valid) {
       const grade = this.gradeForm.value.grade;
       console.log("Nota enviada:", grade);
-
+      let submitted = new EventEmitter();
+      this.loadingService.LoadingDialog(submitted)
       this.submissionsService.GradeSubmission(this.data.submission.id, grade).subscribe({
         next: () => {
           this.submissionsService.EmitUpdate();
+        },
+        error: err => {
+          console.log(err);
+          submitted.emit()
+        },
+        complete: () => {
+          submitted.emit()
         }
       })
 

@@ -16,13 +16,13 @@
 }
 
 .card-actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   margin-left: auto;
-  margin-right: 5%;
+}
+
+.card-actions button {
+  margin-left: auto;
+  margin-right: 20px;
 }
 
 .submission-card mat-icon {
-  margin-left: 25px;
 }
