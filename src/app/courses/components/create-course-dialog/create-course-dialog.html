@@ -1,0 +1,15 @@
+
+<mat-dialog-content>
+  <h1>Crea un Curso</h1>
+
+  <mat-form-field>
+    <mat-label>Título</mat-label>
+    <input matInput [(ngModel)]="title" placeholder="Título del Curso">
+  </mat-form-field>
+
+  <div class="buttons">
+    <button mat-flat-button (click)="Create()" color="primary">Crear</button>
+    <button mat-button (click)="Cancel()" color="secondary">Cancelar</button>
+  </div>
+</mat-dialog-content>
+

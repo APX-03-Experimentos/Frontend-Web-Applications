@@ -1,0 +1,4 @@
+.course-card {
+  flex: 0 1 100px;
+  max-width: 350px;
+}

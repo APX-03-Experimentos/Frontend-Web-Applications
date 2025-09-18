@@ -1,0 +1,7 @@
+.course-cards-container {
+  display: flex;
+  flex-wrap: wrap;            /* permite varias filas */
+  justify-content: center;    /* centra las filas */
+  gap: 20px;                  /* separación entre cards */
+  width: 100%;
+}

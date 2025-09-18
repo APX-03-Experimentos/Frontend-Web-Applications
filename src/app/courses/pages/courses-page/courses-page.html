@@ -1,5 +1,16 @@
+<div style="height: 100px"></div>
 <div class="courses-page-center">
-  <app-create-course-box></app-create-course-box>
+  @if (userRole === "ROLE_TEACHER")
+  {
+    <app-create-course-box></app-create-course-box>
+  } @else if (userRole === "ROLE_STUDENT")
+  {
+    <app-join-course-box></app-join-course-box>
+  }
+
 </div>
-<div style="height: 10%"></div>
+<div style="height: 5px"></div>
 <h2 style="padding-left: 30%">Tus cursos:</h2>
+<div style="height: 5px"></div>
+<app-course-list></app-course-list>
+

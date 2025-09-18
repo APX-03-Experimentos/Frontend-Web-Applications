@@ -1,0 +1,5 @@
+<div class="course-cards-container">
+  @for (course of courses; track course.courseId) {
+    <app-course-item [course]="course"></app-course-item>
+  }
+</div>

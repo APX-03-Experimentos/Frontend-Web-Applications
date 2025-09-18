@@ -17,14 +17,14 @@ export class TokenService {
 
   public setToken(token: string): void {
     localStorage.setItem('auth_token', token);
-    this.tokenChanged.emit(token);
     this.isLoggedIn = true;
+    this.tokenChanged.emit(token);
   }
 
   public resetToken(): void {
     localStorage.removeItem('auth_token');
-    this.tokenChanged.emit(undefined);
     this.isLoggedIn = false;
+    this.tokenChanged.emit(undefined);
   }
 
   public getToken(): string {

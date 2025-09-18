@@ -1,15 +1,43 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CreateCourseBox} from '../../components/create-course-box/create-course-box';
+import {CourseItem} from '../../components/course-item/course-item';
+import {CourseList} from '../../components/course-list/course-list';
+import {CoursesService} from '../../services/courses.service';
+import {AuthService} from '../../../iam/services/auth.service';
+import {LoadingService} from '../../../shared/services/loading.service';
+import {JoinCourseBox} from '../../components/join-course-box/join-course-box';
 
 @Component({
   selector: 'app-courses-page',
   imports: [
-    CreateCourseBox
+    CreateCourseBox,
+    CourseItem,
+    CourseList,
+    JoinCourseBox
   ],
   templateUrl: './courses-page.html',
   standalone: true,
   styleUrl: './courses-page.css'
 })
-export class CoursesPage {
+export class CoursesPage implements OnInit {
 
+  userRole: string = "";
+
+  constructor(private authService: AuthService, private loadingService:LoadingService) {
+  }
+
+  ngOnInit() {
+    this.fetchLoggedUserRole();
+  }
+
+  fetchLoggedUserRole(): void {
+    this.authService.fetchLoggedUser().subscribe({
+      next: result => {
+        this.userRole = result.roles[0];
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
 }

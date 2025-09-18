@@ -36,4 +36,7 @@ export class AuthService extends BaseService<User> {
     }, this.httpOptions);
   }
 
+  fetchLoggedUser(): Observable<User> {
+    return this.http.get<User>(`${this.resourcePath()}/me`, this.httpOptions)
+  }
 }
