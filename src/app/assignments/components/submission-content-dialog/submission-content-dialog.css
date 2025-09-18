@@ -1,0 +1,14 @@
+mat-dialog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+mat-dialog-actions button {
+  margin-left: auto;
+}
+
+mat-dialog-actions mat-form-field {
+  margin-top: 15px;
+  margin-right: 15px;
+}

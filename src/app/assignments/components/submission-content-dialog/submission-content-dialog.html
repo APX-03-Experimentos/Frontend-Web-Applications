@@ -1,5 +1,30 @@
 <mat-dialog-content>
   <p>
-    {{data.submission.content}}
+    {{ data.submission.content }}
   </p>
 </mat-dialog-content>
+
+<mat-dialog-actions>
+  @if (userRole === "ROLE_TEACHER") {
+    <form [formGroup]="gradeForm" (ngSubmit)="submitGrade()">
+      <mat-form-field appearance="outline">
+        <mat-label>Calificar</mat-label>
+        <input matInput type="number" formControlName="grade">
+        <mat-error *ngIf="gradeForm.controls['grade'].hasError('required')">
+          La calificación es obligatoria
+        </mat-error>
+        <mat-error *ngIf="gradeForm.controls['grade'].hasError('min')">
+          La nota mínima es 0
+        </mat-error>
+        <mat-error *ngIf="gradeForm.controls['grade'].hasError('max')">
+          La nota máxima es 20
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit"
+              [disabled]="gradeForm.invalid">
+        Calificar
+      </button>
+    </form>
+  }
+</mat-dialog-actions>

@@ -49,10 +49,9 @@ export class SubmissionCreateDialog {
       imageUrl: "test",
     }).subscribe({
       next: () => {
-
+        this.submissionsService.EmitUpdate()
       }, error: err => {
         console.log(err);
-        this.submissionsService.EmitUpdate()
         fetchEnded.emit()
       },
       complete: () => {

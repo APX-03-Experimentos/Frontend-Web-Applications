@@ -29,6 +29,12 @@ export class SubmissionsService extends BaseService<Submission> {
     },this.httpOptions)
   }
 
+  GradeSubmission(submissionId: number, grade: number): Observable<Submission> {
+    return this.http.put<Submission>(`${this.resourcePath()}/${submissionId}/grade`, {
+      score: grade
+    }, this.httpOptions)
+  }
+
   EmitUpdate(): void {
     this.submissionsUpdated.emit();
   }
