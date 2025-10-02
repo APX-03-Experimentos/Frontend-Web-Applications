@@ -3,6 +3,76 @@
   flex-direction: column; /* stack items vertically */
   align-items: center;    /* center items horizontally */
   justify-content: center;/* center vertically if parent has height */
-  min-height: 100vh;      /* optional: make it full height to center on page */
+  min-height: unset;      /* optional: make it full height to center on page */
   text-align: center;     /* also centers text content */
+}
+
+:host {
+  display: block;
+}
+
+.page-bg {
+  min-height: 100dvh;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* Patrones celestes sutiles */
+  background:
+    radial-gradient(circle at 25px 25px, rgba(56,149,211,.12) 2px, transparent 3px) 0 0/50px 50px,
+    radial-gradient(circle at 0 0, rgba(56,149,211,.06) 2px, transparent 3px) 25px 25px/50px 50px,
+    linear-gradient(180deg, #f8fbff, #eef6ff 60%, #e9f3ff);
+}
+
+.card {
+  max-width: 420px;
+  width: 88%;
+  margin: 0 auto;
+  padding: 0px 8px;
+  background: rgba(255,255,255,.86);
+  border: 1px solid rgba(56,149,211,.15);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 30px rgba(56,149,211,.08),
+    0 2px 8px rgba(0,0,0,.05);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-align: center;
+}
+
+img {
+  margin-bottom: 0px;
+}
+
+h2 {
+  margin: 0 0 4px;
+  color: #0f3257;
+  font-weight: 700;
+}
+
+h4 {
+  margin: 0 0 10px;
+  color: #3e6b8f;
+  font-weight: 500;
+}
+
+mat-button-toggle-group {
+  margin: 8px 0 20px;
+}
+
+.main img {
+  width: 260px;   /* ajusta el tamaño deseado */
+  height: auto;   /* conserva proporción */
+  margin-bottom: 6px;
+}
+
+
+@media (max-width: 480px) {
+  .page-bg { padding: 20px; }
+  .card { padding: 12px; border-radius: 5px; }
+
+  .main img {
+    width: 200px; /* tamaño en móviles */
+  }
+
 }

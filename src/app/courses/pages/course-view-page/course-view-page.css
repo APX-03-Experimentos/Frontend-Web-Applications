@@ -70,3 +70,129 @@
   margin-top: auto;
   margin-bottom: 100px;
 }
+
+.course-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.content-container {
+  display: flex;
+  gap: 16px;
+}
+
+app-assignment-list {
+  flex: 1;
+}
+.right-panel {
+  position: relative; /* Cambiar de fixed a relative */
+  top: 0; /* Eliminar el desplazamiento */
+  right: 0; /* Eliminar el desplazamiento */
+  width: 40%; /* Ajustar el ancho para que sea proporcional */
+  height: auto; /* Permitir que el contenido determine la altura */
+  background-color: #a5d7f4;
+  z-index: 1; /* Asegurar que no se superponga */
+  border-radius: 15px;
+  border-width: medium;
+  border-style: solid;
+  border-color: #2b2b2b;
+}
+
+.content-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start; /* Asegurar alineación superior */
+}
+
+.left-panel {
+  flex: 1;
+}
+
+.right-panel {
+  flex: 1;
+}
+
+
+.course-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+  background-color: #eaf6fc; /* Fondo general celeste claro */
+  border-radius: 8px;
+}
+
+.panel-container {
+  background-color: #d1ecf9; /* Fondo del panel */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.panel-title h1 {
+  color: #007bb5; /* Azul más oscuro para el título */
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.center-horizontally {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.center-horizontally button {
+  background-color: #007bb5; /* Botón azul */
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.center-horizontally button:hover {
+  background-color: #005f8a; /* Azul más oscuro al pasar el mouse */
+}
+
+.content-container {
+  display: flex;
+  gap: 16px;
+}
+
+.left-panel {
+  flex: 1;
+  background-color: #ffffff; /* Fondo blanco para contraste */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.right-panel {
+  flex: 1;
+  background-color: #d1ecf9; /* Fondo celeste claro */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info-section-right-panel h1,
+.info-section-right-panel h2 {
+  color: #007bb5; /* Azul para los textos */
+  margin: 8px 0;
+}
+
+.analytics-button {
+  background-color: #007bb5; /* Botón azul */
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.analytics-button:hover {
+  background-color: #005f8a; /* Azul más oscuro al pasar el mouse */
+}
