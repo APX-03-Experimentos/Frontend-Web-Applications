@@ -19,6 +19,7 @@
           <h1>Información del curso</h1>
           <h2>{{course?.title}}</h2>
           <h2>Profesor: {{teacher?.userName}}</h2>
+          <p>Este curso está diseñado para ayudarte a alcanzar tus metas académicas.</p>
         </div>
         @if (userRole === "ROLE_TEACHER") {
           <button mat-raised-button class="analytics-button" [routerLink]="['/course',this.preCourseId,'analytics']">Ver desempeño del curso</button>

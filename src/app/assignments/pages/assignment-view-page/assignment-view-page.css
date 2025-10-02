@@ -62,3 +62,20 @@
 .submissions-add-bar button {
   margin-left: auto;
 }
+
+
+.assignment-info-container {
+  margin-top: 0;
+}
+.assignment-info-container {
+  margin-top: 0;
+  padding-top: 0;
+}
+.assignment-base-column {
+  margin-top: 0 !important;
+}
+
+app-assignment-view-page {
+  margin-top: 0;
+  padding-top: 0;
+}

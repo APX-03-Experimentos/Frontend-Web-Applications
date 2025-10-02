@@ -26,3 +26,56 @@
 
 .submission-card mat-icon {
 }
+
+.submission-card {
+  padding: 20px;
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  margin-bottom: 16px; /* Espaciado entre tarjetas */
+  width: 80%; /* Ancho fijo del 80% del contenedor */
+  max-width: 1000px; /* Ancho máximo para pantallas grandes */
+  margin-left: auto; /* Centra horizontalmente */
+  margin-right: auto;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px; /* Espaciado entre el encabezado y el cuerpo */
+}
+
+.card-header .icon {
+  margin-right: 16px; /* Espaciado entre el ícono y el texto */
+  font-size: 36px; /* Tamaño del ícono */
+  color: #007bb5; /* Azul para el ícono */
+}
+
+.card-info-column h1 {
+  font-size: 20px;
+  color: #333; /* Texto oscuro */
+  margin: 0;
+}
+
+.card-body h2 {
+  font-size: 18px;
+  color: #555; /* Gris para el texto */
+  margin: 0;
+}
+
+.card-actions {
+  margin-top: 16px; /* Espaciado superior */
+  display: flex;
+  justify-content: flex-end; /* Botón alineado a la derecha */
+}
+
+.card-actions button {
+  background-color: #007bb5; /* Botón azul */
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 8px 16px;
+}
+
+.card-actions button:hover {
+  background-color: #005f8a; /* Azul más oscuro al pasar el mouse */
+}
