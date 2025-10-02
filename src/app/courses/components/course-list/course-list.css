@@ -4,4 +4,37 @@
   justify-content: center;    /* centra las filas */
   gap: 20px;                  /* separación entre cards */
   width: 100%;
+  position: relative;
+  min-height: 350px;
+
+}
+
+
+
+.empty-course-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  position: relative;
+}
+
+.empty-bg {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  opacity: 0.22;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.empty-course-list h2,
+.empty-course-list p {
+  position: relative;
+  z-index: 1;
+  color: #0f3257;
+  margin: 0.5em 0;
 }

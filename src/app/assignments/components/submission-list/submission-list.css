@@ -4,3 +4,12 @@
   flex-direction: column;
   align-items: center;
 }
+
+
+app-submission-item {
+  width: 80%; /* Ancho fijo del 80% del contenedor */
+  max-width: 1000px; /* Ancho máximo para pantallas grandes */
+  margin-left: auto; /* Centra horizontalmente */
+  margin-right: auto;
+  display: block; /* Asegura que se comporte como un bloque */
+}

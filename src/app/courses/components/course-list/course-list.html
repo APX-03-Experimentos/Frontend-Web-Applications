@@ -1,4 +1,11 @@
 <div class="course-cards-container">
+  @if (courses.length === 0) {
+    <div class="empty-course-list">
+      <img src="assets/imagen_1.png" alt="Sin cursos" class="empty-bg" />
+      <h2>No tienes cursos aún</h2>
+      <p>Usa el botón para agregar o unirte a un curso.</p>
+    </div>
+  }
   @for (course of courses; track course.courseId) {
     <app-course-item [course]="course"></app-course-item>
   }

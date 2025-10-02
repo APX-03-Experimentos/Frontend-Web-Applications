@@ -1,14 +1,4 @@
-.join-code-section {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  background: linear-gradient(135deg, #ffffff, #f9f9f9);
-  min-height: 100px;
-  min-width: 600px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  position: relative;
-}
+
 
 .join-group-container {
   display: flex;
@@ -18,4 +8,139 @@
 
 .join-group-container mat-form-field {
   margin-top: 16px;
+}
+
+
+
+/* Contenido centrado y con aire */
+.join-group-container {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  justify-content: center;
+}
+
+
+.join-code-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 140px;
+  min-width: 340px;
+  position: relative;
+
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.08);
+  background-image: url("data:image/svg+xml;utf8,<svg width='20' height='20' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'><polygon points='20,2 38,12 38,32 20,42 2,32 2,12' fill='%233895d3' opacity='0.05'/></svg>");
+  border-radius: 18px;
+
+  padding: 32px 24px;
+}
+.join-group-container {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  justify-content: center;
+}
+
+.join-group-container h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2566a6;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+mat-form-field {
+  min-width: 140px;
+  margin-top: 0;
+}
+mat-form-field.mat-form-field {
+  border-radius: 8px;
+  border: 1.5px solid #b3e5fc;
+  background: #e3f2fd;
+}
+
+button[mat-flat-button] {
+  background: #90caf9;
+  color: #0f3257;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0 18px;
+  height: 40px;
+}
+
+button[mat-flat-button]:hover {
+  background: #b3e5fc;
+}
+
+
+mat-form-field {
+  min-width: 180px;
+  margin-top: 0;
+  border-radius: 8px;
+  border: 1.5px solid #90caf9;
+  background: #e3f2fd;
+  box-shadow: 0 2px 8px rgba(144, 202, 249, 0.12);
+  padding: 4px 12px;
+}
+
+mat-form-field.mat-form-field {
+  border-radius: 8px;
+  border: 1.5px solid #b3e5fc;
+  background: #e3f2fd;
+}
+
+mat-form-field input {
+  background: transparent;
+  color: #2566a6;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 6px 0;
+}
+
+mat-label {
+  color: #2566a6 !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+
+/* Quita cualquier borde del mat-form-field en la sección de unión */
+.join-code-section mat-form-field,
+.join-code-section mat-form-field.mat-form-field {
+  border: none !important;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Wrapper sin borde ni sombra y fondo blanco limpio */
+.join-code-section .mat-mdc-text-field-wrapper {
+  border: none !important;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  border-radius: 10px;
+}
+
+/* Elimina overlays y la línea inferior (filled) */
+.join-code-section .mat-mdc-form-field-focus-overlay { background: transparent !important; }
+.join-code-section .mdc-line-ripple { display: none !important; }
+
+/* Si el campo está en modo outline, quita el contorno (también en hover/focus) */
+.join-code-section .mdc-notched-outline__leading,
+.join-code-section .mdc-notched-outline__notch,
+.join-code-section .mdc-notched-outline__trailing {
+  border-color: transparent !important;
+}
+.join-code-section .mat-mdc-form-field:hover .mdc-notched-outline__leading,
+.join-code-section .mat-mdc-form-field:hover .mdc-notched-outline__notch,
+.join-code-section .mat-mdc-form-field:hover .mdc-notched-outline__trailing,
+.join-code-section .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.join-code-section .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.join-code-section .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: transparent !important;
 }

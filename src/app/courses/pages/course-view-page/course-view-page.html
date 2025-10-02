@@ -1,25 +1,32 @@
+<div class="course-view-container">
   <div class="panel-container">
     <div class="panel-title"><h1>Panel de Tareas</h1></div>
     <div class="center-horizontally">
-      @if (userRole === "ROLE_TEACHER") { <button mat-raised-button (click)="OpenCreateDialog()" >Agregar Tarea</button> } @else {
+      @if (userRole === "ROLE_TEACHER") {
+        <button mat-raised-button (click)="OpenCreateDialog()">Agregar Tarea</button>
+      } @else {
         <h1>Estudiante</h1>
       }
     </div>
   </div>
-  <app-assignment-list [courseId]="preCourseId"></app-assignment-list>
-  <div class="right-panel">
-    <div class="right-panel-content-container">
-      <div class="info-section-right-panel">
-        <h1>Información del curso</h1>
-        <h2>{{course?.title}}</h2>
-        <h2>Profesor: {{teacher?.userName}}</h2>
+  <div class="content-container">
+    <div class="left-panel">
+      <app-assignment-list [courseId]="preCourseId"></app-assignment-list>
+    </div>
+    <div class="right-panel">
+      <div class="right-panel-content-container">
+        <div class="info-section-right-panel">
+          <h1>Información del curso</h1>
+          <h2>{{course?.title}}</h2>
+          <h2>Profesor: {{teacher?.userName}}</h2>
+          <p>Este curso está diseñado para ayudarte a alcanzar tus metas académicas.</p>
+        </div>
+        @if (userRole === "ROLE_TEACHER") {
+          <button mat-raised-button class="analytics-button" [routerLink]="['/course',this.preCourseId,'analytics']">Ver desempeño del curso</button>
+        } @else if (userRole === "ROLE_STUDENT") {
+
+        }
       </div>
-      @if (userRole === "ROLE_TEACHER") {
-        <button mat-raised-button class="analytics-button" [routerLink]="['/course',this.preCourseId,'analytics']">Ver desempeño del curso</button>
-      } @else if (userRole === "ROLE_STUDENT")
-      {
-
-      }
-
     </div>
   </div>
+</div>
