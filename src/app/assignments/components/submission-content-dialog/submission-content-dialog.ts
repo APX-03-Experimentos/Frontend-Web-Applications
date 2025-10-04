@@ -9,6 +9,9 @@ import {NgIf} from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SubmissionsService} from '../../services/submissions.service';
 import {LoadingService} from '../../../shared/services/loading.service';
+import JSZip from 'jszip';
+import {saveAs} from 'file-saver';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-submission-content-dialog',
@@ -21,7 +24,8 @@ import {LoadingService} from '../../../shared/services/loading.service';
     MatButton,
     NgIf,
     MatError,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIcon
   ],
   templateUrl: './submission-content-dialog.html',
   standalone: true,
@@ -89,5 +93,23 @@ export class SubmissionContentDialog implements OnInit {
 
       this.dialogRef.close();
     }
+  }
+
+  async DownloadAllFilesAsZip(): Promise<void> {
+    if (!this.data.submission?.fileUrls || this.data.submission.fileUrls.length === 0) return;
+
+    const zip = new JSZip();
+    const folder = zip.folder("archivos")!;
+
+    for (let i = 0; i < this.data.submission.fileUrls.length; i++) {
+      const url = this.data.submission.fileUrls[i];
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const fileName = url.split('/').pop() || `archivo_${i + 1}`;
+      folder.file(fileName, blob);
+    }
+
+    const content = await zip.generateAsync({ type: "blob" });
+    saveAs(content, "archivos.zip");
   }
 }

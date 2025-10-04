@@ -7,6 +7,8 @@
     </mat-label>
     <textarea matInput [(ngModel)]="content"></textarea>
   </mat-form-field>
+  <h3>Archivos</h3>
+  <input type="file" (change)="onFilesSelected($event)" multiple>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="dialogRef.close()">Cancelar</button>

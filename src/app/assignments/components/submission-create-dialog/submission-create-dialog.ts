@@ -26,6 +26,7 @@ import {FormsModule} from '@angular/forms';
 })
 export class SubmissionCreateDialog {
 
+  selectedFiles: File[] = [];
   content: string = "";
 
   constructor(
@@ -48,7 +49,25 @@ export class SubmissionCreateDialog {
       content: this.content,
       imageUrl: "test",
     }).subscribe({
-      next: () => {
+      next: (result) => {
+        if (this.selectedFiles.length > 0) {
+          let filesUploaded = new EventEmitter();
+          this.loadingService.LoadingDialog(filesUploaded);
+          console.log("Selected files detected, attempting to upload");
+          this.submissionsService.AddFilesToSubmission(result.id, this.selectedFiles).subscribe({
+            next: (array) => {
+              console.log(`Uploaded successfully: ${array}`);
+            },
+            error: (err) => {
+              console.log(err)
+              filesUploaded.emit()
+            },
+            complete: () => {
+              filesUploaded.emit()
+            }
+          });
+        }
+
         this.submissionsService.EmitUpdate()
       }, error: err => {
         console.log(err);
@@ -58,6 +77,10 @@ export class SubmissionCreateDialog {
         fetchEnded.emit()
       }
     })
+  }
+
+  onFilesSelected(event: any) {
+    this.selectedFiles = Array.from(event.target.files);
   }
 
 }

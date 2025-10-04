@@ -2,6 +2,13 @@
   <p>
     {{ data.submission.content }}
   </p>
+  @if (data.submission?.fileUrls?.length)
+  {
+    <button mat-flat-button color="primary" (click)="DownloadAllFilesAsZip()">
+      <mat-icon>archive</mat-icon>
+      Descargar todos los archivos
+    </button>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>
@@ -16,9 +23,12 @@
         <mat-error *ngIf="gradeForm.controls['grade'].hasError('min')">
           La nota mínima es 0
         </mat-error>
-        <mat-error *ngIf="gradeForm.controls['grade'].hasError('max')">
-          La nota máxima es 20
-        </mat-error>
+        @if (gradeForm.controls['grade'].hasError('max'))
+        {
+          <mat-error>
+            La nota máxima es 20
+          </mat-error>
+        }
       </mat-form-field>
 
       <button mat-flat-button color="primary" type="submit"

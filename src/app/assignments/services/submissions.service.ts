@@ -43,4 +43,14 @@ export class SubmissionsService extends BaseService<Submission> {
     this.submissionsUpdated.emit();
   }
 
+  AddFilesToSubmission(id: number, files: File[]): Observable<String[]> {
+    const formData = new FormData();
+
+    files.forEach(file => {
+      formData.append('files', file);
+    })
+
+    return this.http.post<String[]>(`${this.resourcePath()}/${id}/files`, formData, this.httpOptions)
+  }
+
 }
