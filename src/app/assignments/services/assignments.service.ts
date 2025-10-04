@@ -28,4 +28,14 @@ export class AssignmentsService extends BaseService<Assignment>{
     return this.http.post<Assignment>(`${this.resourcePath()}`, assignment, this.httpOptions)
   }
 
+  AddFilesToAssignment(id: number, files: File[]): Observable<String[]> {
+    const formData = new FormData();
+
+    files.forEach(file => {
+      formData.append('files', file);
+    })
+
+    return this.http.post<String[]>(`${this.resourcePath()}/${id}/files`, formData, this.httpOptions)
+  }
+
 }

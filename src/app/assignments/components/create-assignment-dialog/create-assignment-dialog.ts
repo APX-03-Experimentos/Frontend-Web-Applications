@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, EventEmitter, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import {Assignment} from '../../model/assignment.entity';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -30,7 +30,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class CreateAssignmentDialog {
 
-
+  selectedFiles: File[] = [];
   title: string = '';
   description: string = '';
   deadline: Date = new Date();
@@ -44,7 +44,9 @@ export class CreateAssignmentDialog {
   ) {}
 
   OnSave(): void {
-    this.loadingService.startLoadingDialog()
+
+    let fetchEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(fetchEnded);
     this.assignmentService.CreateAssignment({
       title: this.title,
       description: this.description,
@@ -52,18 +54,39 @@ export class CreateAssignmentDialog {
       deadline: this.deadline.toISOString(),
       imageUrl: ""
     }).subscribe({
-      next: () => {
+      next: (result) => {
+        if (this.selectedFiles.length > 0) {
+          let filesUploaded = new EventEmitter();
+          this.loadingService.LoadingDialog(filesUploaded);
+          console.log("Selected files detected, attempting to upload");
+          this.assignmentService.AddFilesToAssignment(result.id, this.selectedFiles).subscribe({
+            next: (array) => {
+              console.log(`Uploaded successfully: ${array}`);
+            },
+            error: (err) => {
+              console.log(err)
+              filesUploaded.emit()
+            },
+            complete: () => {
+              filesUploaded.emit()
+            }
+          });
+        }
         this.assignmentService.EmitUpdate()
       },
       error: (err) => {
         console.log(err)
-        this.loadingService.stopLoadingDialog()
+        fetchEnded.emit()
         this.dialogRef.close();
       },
       complete: () => {
-        this.loadingService.stopLoadingDialog()
+        fetchEnded.emit()
         this.dialogRef.close();
       }
     })
+  }
+
+  onFilesSelected(event: any) {
+    this.selectedFiles = Array.from(event.target.files);
   }
 }
