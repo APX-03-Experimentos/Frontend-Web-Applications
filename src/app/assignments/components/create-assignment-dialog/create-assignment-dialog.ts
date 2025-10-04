@@ -52,7 +52,7 @@ export class CreateAssignmentDialog {
       description: this.description,
       courseId: this.data.courseId,
       deadline: this.deadline.toISOString(),
-      imageUrl: ""
+      imageUrl: "",
     }).subscribe({
       next: (result) => {
         if (this.selectedFiles.length > 0) {

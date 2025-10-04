@@ -13,6 +13,13 @@
       <div class="assignment-deadline-container">
         <mat-icon>schedule</mat-icon><p>Vence el: {{GetFormattedDate()}}</p>
       </div>
+      @if (assignment?.fileUrls?.length)
+      {
+        <button mat-flat-button color="primary" (click)="DownloadAllFilesAsZip()">
+          <mat-icon>archive</mat-icon>
+          Descargar todos los archivos
+        </button>
+      }
     </div>
   </div>
   <div class="submissions-add-bar">

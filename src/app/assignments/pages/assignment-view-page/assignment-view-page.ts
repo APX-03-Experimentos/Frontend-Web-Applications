@@ -12,6 +12,8 @@ import {AuthService} from '../../../iam/services/auth.service';
 import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {SubmissionCreateDialog} from '../../components/submission-create-dialog/submission-create-dialog';
+import JSZip from 'jszip';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-assignment-view-page',
@@ -61,6 +63,7 @@ export class AssignmentViewPage implements OnInit {
     this.assignmentService.getById(this.preAssignmentId).subscribe({
       next: result => {
         this.assignment = result;
+        console.log(this.assignment)
       },
       error: err => {
         console.log(err);
@@ -107,5 +110,23 @@ export class AssignmentViewPage implements OnInit {
       hasBackdrop: true,
       disableClose: true
     })
+  }
+
+  async DownloadAllFilesAsZip(): Promise<void> {
+    if (!this.assignment?.fileUrls || this.assignment.fileUrls.length === 0) return;
+
+    const zip = new JSZip();
+    const folder = zip.folder("archivos")!;
+
+    for (let i = 0; i < this.assignment.fileUrls.length; i++) {
+      const url = this.assignment.fileUrls[i];
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const fileName = url.split('/').pop() || `archivo_${i + 1}`;
+      folder.file(fileName, blob);
+    }
+
+    const content = await zip.generateAsync({ type: "blob" });
+    saveAs(content, "archivos.zip");
   }
 }

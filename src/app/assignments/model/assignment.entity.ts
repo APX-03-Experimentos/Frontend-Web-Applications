@@ -5,6 +5,7 @@ export class Assignment {
   courseId: number;
   deadline: string;
   imageUrl: string;
+  fileUrls: string[];
 
   constructor(assignment: {id: number, title: string, description: string, courseId: number ,deadline: string, imageUrl: string}) {
     this.id = assignment.id;
@@ -13,5 +14,6 @@ export class Assignment {
     this.courseId = assignment.courseId;
     this.deadline = assignment.deadline;
     this.imageUrl = assignment.imageUrl;
+    this.fileUrls = [];
   }
 }
