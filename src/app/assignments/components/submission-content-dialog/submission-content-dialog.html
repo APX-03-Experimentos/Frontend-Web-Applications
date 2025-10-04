@@ -17,12 +17,12 @@
       <mat-form-field appearance="outline">
         <mat-label>Calificar</mat-label>
         <input matInput type="number" formControlName="grade">
-        <mat-error *ngIf="gradeForm.controls['grade'].hasError('required')">
-          La calificación es obligatoria
-        </mat-error>
-        <mat-error *ngIf="gradeForm.controls['grade'].hasError('min')">
-          La nota mínima es 0
-        </mat-error>
+        @if (gradeForm.controls['grade'].hasError('min'))
+        {
+          <mat-error>
+            La nota mínima es 0
+          </mat-error>
+        }
         @if (gradeForm.controls['grade'].hasError('max'))
         {
           <mat-error>
