@@ -5,7 +5,6 @@ import {AuthService} from '../../../iam/services/auth.service';
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
-import {NgIf} from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SubmissionsService} from '../../services/submissions.service';
 import {LoadingService} from '../../../shared/services/loading.service';
@@ -22,7 +21,6 @@ import {MatIcon} from '@angular/material/icon';
     MatLabel,
     MatInput,
     MatButton,
-    NgIf,
     MatError,
     ReactiveFormsModule,
     MatIcon
@@ -96,6 +94,10 @@ export class SubmissionContentDialog implements OnInit {
   }
 
   async DownloadAllFilesAsZip(): Promise<void> {
+
+    let downloadEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(downloadEnded)
+
     if (!this.data.submission?.fileUrls || this.data.submission.fileUrls.length === 0) return;
 
     const zip = new JSZip();
@@ -111,5 +113,7 @@ export class SubmissionContentDialog implements OnInit {
 
     const content = await zip.generateAsync({ type: "blob" });
     saveAs(content, "archivos.zip");
+
+    downloadEnded.emit()
   }
 }

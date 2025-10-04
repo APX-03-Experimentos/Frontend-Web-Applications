@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Input, OnInit} from '@angular/core';
-import {MatCard, MatCardContent} from '@angular/material/card';
-import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatCard} from '@angular/material/card';
+import {MatButton} from '@angular/material/button';
 import {Submission} from '../../model/submission.entity';
 import {MatIcon} from '@angular/material/icon';
 import {User} from '../../../iam/model/user.entity';
 import {AuthService} from '../../../iam/services/auth.service';
-import {SubmissionsService} from '../../services/submissions.service';
 import {LoadingService} from '../../../shared/services/loading.service';
 import {MatDialog} from '@angular/material/dialog';
 import {SubmissionContentDialog} from '../submission-content-dialog/submission-content-dialog';
@@ -14,9 +13,7 @@ import {SubmissionContentDialog} from '../submission-content-dialog/submission-c
   selector: 'app-submission-item',
   imports: [
     MatCard,
-    MatCardContent,
     MatButton,
-    MatIconButton,
     MatIcon
   ],
   templateUrl: './submission-item.html',

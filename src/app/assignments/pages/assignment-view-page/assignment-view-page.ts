@@ -113,6 +113,10 @@ export class AssignmentViewPage implements OnInit {
   }
 
   async DownloadAllFilesAsZip(): Promise<void> {
+
+    let downloadEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(downloadEnded)
+
     if (!this.assignment?.fileUrls || this.assignment.fileUrls.length === 0) return;
 
     const zip = new JSZip();
@@ -128,5 +132,7 @@ export class AssignmentViewPage implements OnInit {
 
     const content = await zip.generateAsync({ type: "blob" });
     saveAs(content, "archivos.zip");
+
+    downloadEnded.emit()
   }
 }
