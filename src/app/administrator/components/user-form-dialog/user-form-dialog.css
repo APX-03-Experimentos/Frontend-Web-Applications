@@ -1,0 +1,100 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #d7dce2;
+  border-radius: 8px;
+  max-width: 340px;
+  font-family: system-ui, Arial, sans-serif;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #344250;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+input {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #c4ccd4;
+  border-radius: 5px;
+  background: #fafbfc;
+  transition: border-color .18s, box-shadow .18s, background .18s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3085d6;
+  box-shadow: 0 0 0 2px rgba(48,133,214,.25);
+  background: #fff;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #d64545;
+  background: #fff5f5;
+}
+
+button {
+  cursor: pointer;
+  padding: 8px 14px;
+  font-size: 14px;
+  line-height: 1.2;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  letter-spacing: .3px;
+  background: #2563eb;
+  color: #fff;
+  transition: background .18s, box-shadow .18s;
+}
+
+button[type="button"] {
+  background: #f1f5f9;
+  color: #374151;
+  border-color: #d0d7de;
+}
+
+button[type="button"]:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+form > button + button {
+  margin-left: 4px;
+}
+
+form > button:last-of-type {
+  align-self: flex-start;
+}
+
+@media (max-width: 480px) {
+  form {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px 16px;
+  }
+  button {
+    width: 100%;
+  }
+  form > button + button {
+    margin-left: 0;
+  }
+}

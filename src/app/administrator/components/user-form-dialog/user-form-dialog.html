@@ -1,0 +1,11 @@
+<!-- user-form-dialog.html (fragmento sin roles) -->
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <label>Usuario</label>
+  <input formControlName="userName" />
+  <ng-container *ngIf="!user">
+    <label>Contraseña</label>
+    <input type="password" formControlName="password" />
+  </ng-container>
+  <button type="submit" [disabled]="form.invalid">Guardar</button>
+  <button type="button" (click)="cancel()">Cancelar</button>
+</form>

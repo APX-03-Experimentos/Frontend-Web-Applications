@@ -1,0 +1,25 @@
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem .75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.roles {
+  font-size: .7rem;
+  opacity: .7;
+}
+.actions {
+  display: flex;
+  gap: .5rem;
+}
+button {
+  cursor: pointer;
+}

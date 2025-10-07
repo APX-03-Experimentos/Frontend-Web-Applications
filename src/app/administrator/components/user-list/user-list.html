@@ -1,0 +1,15 @@
+<div class="users-wrapper">
+  <h2>Usuarios</h2>
+
+  <div *ngIf="loading()">Cargando...</div>
+  <ul *ngIf="!loading()">
+    <li *ngFor="let u of users()">
+      <span>{{ u.userName }}</span>
+      <button (click)="remove(u)">Eliminar</button>
+    </li>
+  </ul>
+
+  <div *ngIf="!loading() && users().length === 0">
+    No hay usuarios.
+  </div>
+</div>
