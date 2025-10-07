@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import { Component, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CoursesService } from '../../../courses/services/courses.service';
 import { AuthService } from '../../../iam/services/auth.service';
 import { AssignmentsService } from '../../../assignments/services/assignments.service';
@@ -12,6 +12,7 @@ import { Submission } from '../../../assignments/model/submission.entity';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-course-analytics',
@@ -27,13 +28,15 @@ export class CourseAnalyticsPage implements OnInit {
   assignments: Assignment[] = [];
   submissions: Submission[] = [];
 
-  // Datos para gráficos
   assignmentSubmissionRate: number[] = [];
   averageScores: number[] = [];
   gradedCount = 0;
   notGradedCount = 0;
 
-  // Gráfico de barras: Tasas de entrega por asignación
+  // Nuevo chart para distribución de calificaciones
+  public scoreDistributionLabels: string[] = ['0-4', '5-9', '10-14', '15-20'];
+  public scoreDistributionData: number[] = [0, 0, 0, 0];
+
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     scales: {
@@ -85,7 +88,6 @@ export class CourseAnalyticsPage implements OnInit {
     ]
   };
 
-  // Gráfico de radar: Rendimiento promedio por asignación
   public radarChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     scales: {
@@ -117,7 +119,6 @@ export class CourseAnalyticsPage implements OnInit {
     ]
   };
 
-  // Gráfico de dona: Estado de calificaciones
   public doughnutChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
@@ -152,6 +153,40 @@ export class CourseAnalyticsPage implements OnInit {
 
   public doughnutChartType: ChartType = 'doughnut';
 
+  // Chart para distribución de calificaciones
+  public distributionChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Rangos de calificación'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Cantidad de estudiantes'
+        }
+      }
+    }
+  };
+
+  public distributionChartType: ChartType = 'bar';
+  public distributionChartData: ChartData<'bar'> = {
+    labels: this.scoreDistributionLabels,
+    datasets: [
+      {
+        data: [],
+        label: 'Estudiantes',
+        backgroundColor: 'rgba(153, 102, 255, 0.5)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
   constructor(
     private coursesService: CoursesService,
     private authService: AuthService,
@@ -159,129 +194,134 @@ export class CourseAnalyticsPage implements OnInit {
     private submissionsService: SubmissionsService,
     private loadingService: LoadingService,
     private route: ActivatedRoute,
-  ) {
+    private cdRef: ChangeDetectorRef // Inyectar ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const courseIdParam = params.get('courseId');
       if (courseIdParam) {
         this.courseId = +courseIdParam;
+
+        let fetchEnded = new EventEmitter();
+        this.loadingService.LoadingDialog(fetchEnded);
+
+        forkJoin({
+          course: this.coursesService.getById(this.courseId),
+          students: this.authService.GetStudentsFromCourse(this.courseId),
+          assignments: this.assignmentsService.GetAssignmentsByCourseId(this.courseId),
+          submissions: this.submissionsService.GetSubmissionsByCourseId(this.courseId)
+        }).subscribe({
+          next: ({ course, students, assignments, submissions }) => {
+            this.course = course;
+            this.students = students;
+            this.assignments = assignments;
+            this.submissions = submissions;
+            this.prepareChartData();
+          },
+          error: (err) => {
+            console.error(err);
+            fetchEnded.emit();
+          },
+          complete: () => fetchEnded.emit()
+        });
       }
     });
   }
 
-  ngOnInit() {
-    this.FetchCourseInfo();
-    this.FetchStudents();
-    this.FetchAssignments();
-    this.FetchSubmissions();
-  }
-
-  // Tus métodos Fetch existentes (sin cambios)...
-  FetchCourseInfo(): void {
-    let fetchEnded = new EventEmitter();
-    this.loadingService.LoadingDialog(fetchEnded);
-    this.coursesService.getById(this.courseId).subscribe({
-      next: result => {
-        this.course = result;
-      },
-      error: err => {
-        console.log(err);
-        fetchEnded.emit()
-      },
-      complete: () => {
-        fetchEnded.emit()
-      }
-    })
-  }
-
-  FetchStudents(): void {
-    let fetchEnded = new EventEmitter();
-    this.loadingService.LoadingDialog(fetchEnded);
-    this.authService.GetStudentsFromCourse(this.courseId).subscribe({
-      next: data => {
-        this.students = data;
-      },
-      error: err => {
-        console.log(err);
-        fetchEnded.emit()
-      },
-      complete: () => {
-        fetchEnded.emit()
-      }
-    })
-  }
-
-  FetchAssignments(): void {
-    let fetchEnded = new EventEmitter();
-    this.loadingService.LoadingDialog(fetchEnded);
-    this.assignmentsService.GetAssignmentsByCourseId(this.courseId).subscribe({
-      next: data => {
-        this.assignments = data;
-        this.prepareChartData();
-      },
-      error: err => {
-        console.log(err);
-        fetchEnded.emit()
-      },
-      complete: () => {
-        fetchEnded.emit()
-      }
-    })
-  }
-
-  FetchSubmissions(): void {
-    let fetchEnded = new EventEmitter();
-    this.loadingService.LoadingDialog(fetchEnded);
-    this.submissionsService.GetSubmissionsByCourseId(this.courseId).subscribe({
-      next: data => {
-        this.submissions = data;
-        this.prepareChartData();
-      },
-      error: err => {
-        console.log(err);
-        fetchEnded.emit()
-      },
-      complete: () => {
-        fetchEnded.emit()
-      }
-    })
-  }
-
-  // Preparar datos para los gráficos
   prepareChartData(): void {
     if (this.assignments.length === 0 || this.submissions.length === 0 || this.students.length === 0) {
       return;
     }
 
-    // Preparar datos para el gráfico de barras (porcentaje de entregas por asignación)
-    this.barChartData.labels = this.assignments.map(a => a.title);
-    this.assignmentSubmissionRate = this.assignments.map(assignment => {
-      const assignmentSubmissions = this.submissions.filter(s => s.assignmentId === assignment.id);
-      const submissionRate = (assignmentSubmissions.length / this.students.length) * 100;
-      return Math.round(submissionRate);
-    });
-    this.barChartData.datasets[0].data = this.assignmentSubmissionRate;
+    // Actualizar datos del chart de porcentaje de entregas
+    this.barChartData = {
+      ...this.barChartData,
+      labels: this.assignments.map(a => a.title),
+      datasets: [
+        {
+          ...this.barChartData.datasets[0],
+          data: this.assignments.map(assignment => {
+            const assignmentSubmissions = this.submissions.filter(s => s.assignmentId === assignment.id);
+            const submissionRate = (assignmentSubmissions.length / this.students.length) * 100;
+            return Math.round(submissionRate);
+          })
+        }
+      ]
+    };
 
-    // Preparar datos para el gráfico de radar (calificación promedio por asignación)
-    this.radarChartData.labels = this.assignments.map(a => a.title);
-    this.averageScores = this.assignments.map(assignment => {
-      const gradedSubmissions = this.submissions.filter(s =>
-        s.assignmentId === assignment.id && s.status === 'GRADED'
-      );
+    // Actualizar datos del chart radar
+    this.radarChartData = {
+      ...this.radarChartData,
+      labels: this.assignments.map(a => a.title),
+      datasets: [
+        {
+          ...this.radarChartData.datasets[0],
+          data: this.assignments.map(assignment => {
+            const gradedSubmissions = this.submissions.filter(s =>
+              s.assignmentId === assignment.id && s.status === 'GRADED'
+            );
 
-      if (gradedSubmissions.length === 0) return 0;
+            if (gradedSubmissions.length === 0) return 0;
 
-      const totalScore = gradedSubmissions.reduce((sum, submission) => sum + submission.score, 0);
-      return Math.round((totalScore / gradedSubmissions.length) * 10) / 10; // Redondear a 1 decimal
-    });
-    this.radarChartData.datasets[0].data = this.averageScores;
+            const totalScore = gradedSubmissions.reduce((sum, submission) => sum + submission.score, 0);
+            return Math.round((totalScore / gradedSubmissions.length) * 10) / 10;
+          })
+        }
+      ]
+    };
 
-    // Preparar datos para el gráfico de dona (estado de calificaciones)
+    // Actualizar datos del chart doughnut
     this.gradedCount = this.submissions.filter(s => s.status === 'GRADED').length;
     this.notGradedCount = this.submissions.filter(s => s.status === 'NOT GRADED').length;
-    this.doughnutChartData.datasets[0].data = [this.gradedCount, this.notGradedCount];
+    this.doughnutChartData = {
+      ...this.doughnutChartData,
+      datasets: [
+        {
+          ...this.doughnutChartData.datasets[0],
+          data: [this.gradedCount, this.notGradedCount]
+        }
+      ]
+    };
+
+    // Preparar datos para el chart de distribución de calificaciones
+    this.prepareScoreDistributionData();
+
+    // Forzar la detección de cambios
+    this.cdRef.detectChanges();
   }
 
-  // Eventos para los gráficos (opcional)
+  prepareScoreDistributionData(): void {
+    // Reiniciar datos
+    this.scoreDistributionData = [0, 0, 0, 0];
+
+    // Contar estudiantes por rango de calificación
+    this.submissions
+      .filter(s => s.status === 'GRADED')
+      .forEach(submission => {
+        if (submission.score >= 0 && submission.score <= 4) {
+          this.scoreDistributionData[0]++;
+        } else if (submission.score >= 5 && submission.score <= 9) {
+          this.scoreDistributionData[1]++;
+        } else if (submission.score >= 10 && submission.score <= 14) {
+          this.scoreDistributionData[2]++;
+        } else if (submission.score >= 15 && submission.score <= 20) {
+          this.scoreDistributionData[3]++;
+        }
+      });
+
+    // Actualizar chart de distribución
+    this.distributionChartData = {
+      ...this.distributionChartData,
+      datasets: [
+        {
+          ...this.distributionChartData.datasets[0],
+          data: this.scoreDistributionData
+        }
+      ]
+    };
+  }
+
   chartClicked({ event, active }: { event?: ChartEvent, active?: object[] }): void {
     console.log(event, active);
   }
@@ -290,7 +330,6 @@ export class CourseAnalyticsPage implements OnInit {
     console.log(event, active);
   }
 
-  // Calcular el promedio general de todas las asignaciones
   calculateOverallAverage(): string {
     if (this.averageScores.length === 0) return 'N/A';
 
@@ -302,7 +341,6 @@ export class CourseAnalyticsPage implements OnInit {
     return average.toFixed(1);
   }
 
-// Obtener el número de entregas para una asignación específica
   getSubmissionCount(assignmentId: number): number {
     return this.submissions.filter(s => s.assignmentId === assignmentId).length;
   }
