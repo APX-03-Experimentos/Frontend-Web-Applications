@@ -1,0 +1,10 @@
+<div *ngIf="loading">Cargando...</div>
+<div *ngIf="error" class="err">{{ error }}</div>
+<div class="grid">
+  <admin-assignment-item
+    *ngFor="let a of items"
+    [assignment]="a"
+    (save)="onSave($event)"
+    (remove)="onDelete($event)">
+  </admin-assignment-item>
+</div>

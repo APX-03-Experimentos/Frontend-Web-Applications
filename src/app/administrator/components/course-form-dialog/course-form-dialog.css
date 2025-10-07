@@ -1,0 +1,4 @@
+
+.dialog-form { display: flex; flex-direction: column; gap: 12px; }
+.dialog-form input { width: 100%; }
+.actions { display: flex; justify-content: flex-end; gap: 8px; }

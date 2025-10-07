@@ -1,0 +1,60 @@
+.card {
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: .75rem .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  background: #fff;
+}
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: .5rem;
+}
+.head h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.actions button {
+  margin-left: .4rem;
+}
+button {
+  background: #1976d2;
+  color: #fff;
+  border: 0;
+  padding: .4rem .7rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: .75rem;
+}
+button.danger {
+  background: #c62828;
+}
+button:hover { filter: brightness(1.07); }
+.desc { margin: 0; font-size: .8rem; }
+.meta {
+  display: flex;
+  gap: 1rem;
+  font-size: .7rem;
+  color: #555;
+  flex-wrap: wrap;
+}
+form.edit label {
+  display: flex;
+  flex-direction: column;
+  font-size: .7rem;
+  gap: .25rem;
+}
+form.edit input, form.edit textarea {
+  font: inherit;
+  padding: .35rem .5rem;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+.edit-actions {
+  display: flex;
+  gap: .5rem;
+  justify-content: flex-end;
+}

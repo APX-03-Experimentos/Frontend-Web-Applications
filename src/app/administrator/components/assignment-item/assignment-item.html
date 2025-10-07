@@ -1,0 +1,44 @@
+<!-- src/app/administrator/components/assignment-item/assignment-item.html -->
+<div class="card" *ngIf="!editing">
+  <h3>{{ assignment.title }}</h3>
+  <p>{{ assignment.description }}</p>
+  <p><strong>Curso ID:</strong> {{ assignment.courseId }}</p>
+  <p><strong>Fecha límite:</strong> {{ formatDeadline(assignment.deadline) }}</p>
+  <div *ngIf="assignment.imageUrl">
+    <img [src]="assignment.imageUrl" alt="Imagen" />
+  </div>
+  <div class="actions">
+    <button type="button" class="danger" (click)="remove.emit(assignment.id)">Borrar</button>
+  </div>
+</div>
+
+<form class="card" *ngIf="editing" (ngSubmit)="submit()">
+  <label>Título
+    <input type="text" [(ngModel)]="form.title" name="title" required />
+  </label>
+
+  <label>Descripción
+    <textarea [(ngModel)]="form.description" name="description" rows="3"></textarea>
+  </label>
+
+  <div class="readonly-course">
+    <strong>Curso ID (no editable):</strong> {{ assignment.courseId }}
+  </div>
+
+  <div class="readonly-deadline">
+    <strong>Fecha límite (no editable):</strong>
+    <div>{{ formatDeadline(assignment.deadline) }}</div>
+  </div>
+
+  <div *ngIf="form.imageUrl">
+    <strong>Imagen:</strong>
+    <img [src]="form.imageUrl" alt="Imagen" style="max-width:160px;">
+  </div>
+
+  <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="edit-actions">
+    <button type="submit">Guardar</button>
+    <button type="button" (click)="cancel()">Cancelar</button>
+  </div>
+</form>

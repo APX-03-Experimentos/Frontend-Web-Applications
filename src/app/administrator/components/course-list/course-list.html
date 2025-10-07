@@ -1,0 +1,42 @@
+<!-- `src/app/administrator/components/course-list/course-list.html` -->
+<div class="courses-wrapper">
+
+  <div *ngIf="loading" class="loading">
+    <mat-progress-spinner diameter="46" mode="indeterminate"></mat-progress-spinner>
+  </div>
+
+  <div class="grid" *ngIf="!loading">
+    <ng-container *ngFor="let c of (courses$ | async)">
+      <figure class="course-card">
+        <div class="thumb-wrapper">
+          <img *ngIf="c.imageUrl; else noImg"
+               class="thumb"
+               [src]="c.imageUrl"
+               [alt]="c.title">
+          <ng-template #noImg>
+            <div class="thumb placeholder">
+              <span>{{ c.title | slice:0:1 }}</span>
+            </div>
+          </ng-template>
+        </div>
+        <figcaption class="info">
+          <h3 class="title" [title]="c.title">{{ c.title }}</h3>
+          <p class="meta">
+            <span class="id">ID: {{ c.courseId }}</span>
+            <span class="key">Key: {{ c.key }}</span>
+            <span class="teacher">Teacher ID: {{ c.teacherId }}</span>
+          </p>
+          <div class="actions">
+            <button type="button" class="edit-btn" (click)="editCourse(c)">Editar</button>
+            <button type="button" class="delete-btn" (click)="deleteCourse(c)">Eliminar</button>
+          </div>
+        </figcaption>
+      </figure>
+    </ng-container>
+  </div>
+
+  <div *ngIf="!loading && (courses$ | async)?.length === 0" class="empty">
+    No hay cursos.
+  </div>
+
+</div>
