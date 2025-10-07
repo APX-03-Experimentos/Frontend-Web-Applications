@@ -50,7 +50,7 @@ export class SubmissionsService extends BaseService<Submission> {
       formData.append('files', file);
     })
 
-    return this.http.post<String[]>(`${this.resourcePath()}/${id}/files`, formData, this.httpOptions)
+    return this.http.post<String[]>(`${this.resourcePath()}/${id}/files`, formData, this.fileHttpOptions)
   }
 
 }

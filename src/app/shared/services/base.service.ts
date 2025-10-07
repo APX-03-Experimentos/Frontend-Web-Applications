@@ -9,6 +9,7 @@ import {TokenService} from './token.service';
 export abstract class BaseService<T> {
   /** HTTP headers configuration for JSON communication */
   protected httpOptions = { headers: new HttpHeaders() };
+  protected fileHttpOptions = { headers: new HttpHeaders() };
   /** Base URL for the server API */
   protected serverBaseUrl: string = `${environment.serverBaseUrl}`;
   /** Endpoint path for the specific resource */
@@ -29,6 +30,12 @@ export abstract class BaseService<T> {
   private setBaseToken(token: string) {
     console.log('auth_token: ' + this.tokenService.getToken());
     this.httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+    this.fileHttpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token}`
       })
