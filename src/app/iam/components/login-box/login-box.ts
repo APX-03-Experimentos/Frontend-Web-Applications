@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+// src/app/iam/components/login-box/login-box.ts
+import {Component} from '@angular/core';
 import {MatCard, MatCardContent} from '@angular/material/card';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -25,26 +26,38 @@ import {Router} from '@angular/router';
   styleUrl: './login-box.css'
 })
 export class LoginBox {
-
   protected username: string = "";
   protected password: string = "";
-
   protected invalidCredentials: boolean = false;
 
-  constructor(private authService: AuthService, private tokenService: TokenService, private loadingService: LoadingService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private tokenService: TokenService,
+    private loadingService: LoadingService,
+    private router: Router
+  ) {}
 
-  LogIn(): void
-  {
-    this.loadingService.startLoadingDialog()
+  LogIn(): void {
+    this.loadingService.startLoadingDialog();
     this.authService.login(this.username, this.password).subscribe({
       next: result => {
         this.tokenService.setToken(result.token);
-        this.router.navigate(['courses']).then(r => {});
+        this.authService.fetchLoggedUser().subscribe({
+          next: (user: any) => {
+            const isAdmin = user.roles?.includes('ROLE_ADMIN');
+            if (isAdmin) {
+              this.router.navigate(['admin/users']);
+            } else {
+              this.router.navigate(['courses']);
+            }
+          },
+          error: () => this.loadingService.stopLoadingDialog(),
+          complete: () => this.loadingService.stopLoadingDialog()
+        });
       },
       error: err => {
         console.log(err);
-        if (err.status === 500 && this.username != "" && this.password != "")
-        {
+        if (err.status === 500 && this.username !== "" && this.password !== "") {
           this.invalidCredentials = true;
         }
         this.loadingService.stopLoadingDialog();
@@ -54,7 +67,6 @@ export class LoginBox {
         this.username = "";
         this.password = "";
       }
-    })
+    });
   }
-
 }

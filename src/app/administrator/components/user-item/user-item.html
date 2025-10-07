@@ -1,0 +1,11 @@
+
+<div class="user-item">
+  <div class="info">
+    <strong>{{ user.userName }}</strong>
+    <span class="roles">{{ user.roles.join(', ') }}</span>
+  </div>
+  <div class="actions">
+    <button type="button" (click)="edit.emit(user)">Editar</button>
+    <button type="button" (click)="remove.emit(user)">Eliminar</button>
+  </div>
+</div>

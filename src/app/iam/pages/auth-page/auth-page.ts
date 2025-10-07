@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {LoginBox} from '../../components/login-box/login-box';
 import {RegisterBox} from '../../components/register-box/register-box';
 import {AuthService} from '../../services/auth.service';
+
 import {TokenService} from '../../../shared/services/token.service';
 import {Router} from '@angular/router';
 
@@ -24,12 +25,23 @@ import {Router} from '@angular/router';
 })
 export class AuthPage implements OnInit {
 
-  constructor(private tokenService: TokenService, private router: Router) {}
+  constructor(private tokenService: TokenService, private router: Router,
+              private authService: AuthService ) {}
 
   ngOnInit() {
-    if (this.tokenService.isLoggedIn)
-    {
-      this.router.navigate(['/courses']);
+    if (this.tokenService.isLoggedIn) {
+      this.authService.fetchLoggedUser().subscribe({
+        next: (user: any) => { // Tipado explícito
+          if (user.roles && user.roles.includes('ROLE_ADMIN')) {
+            this.router.navigate(['/admin/users']);
+          } else {
+            this.router.navigate(['/courses']);
+          }
+        },
+        error: () => {
+          this.router.navigate(['/courses']);
+        }
+      });
     }
   }
 

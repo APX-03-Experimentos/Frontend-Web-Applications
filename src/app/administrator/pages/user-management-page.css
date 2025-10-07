@@ -1,0 +1,11 @@
+.user-management-page {
+  display: block;
+  padding: 1rem;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.title {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
