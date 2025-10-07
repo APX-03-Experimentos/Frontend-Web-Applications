@@ -1,15 +1,37 @@
-
 <mat-dialog-content>
   <h1>Crea un Curso</h1>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Título</mat-label>
-    <input matInput [(ngModel)]="title" placeholder="Título del Curso">
+    <input
+      matInput
+      [(ngModel)]="title"
+      placeholder="Título del Curso"
+      maxlength="100"
+      #titleInput="ngModel"
+      required
+    >
+    <mat-hint>{{ title?.length || 0 }}/100</mat-hint>
+
+    @if (titleInput.invalid && titleInput.touched) {
+      <mat-error>
+        El título es obligatorio y no puede superar los 100 caracteres.
+      </mat-error>
+    }
   </mat-form-field>
 
   <div class="buttons">
-    <button mat-flat-button (click)="Create()" color="primary">Crear</button>
-    <button mat-button (click)="Cancel()" color="secondary">Cancelar</button>
+    <button
+      mat-flat-button
+      (click)="Create()"
+      color="primary"
+      [disabled]="!title || title.length > 100"
+    >
+      Crear
+    </button>
+
+    <button mat-button (click)="Cancel()" color="secondary">
+      Cancelar
+    </button>
   </div>
 </mat-dialog-content>
-

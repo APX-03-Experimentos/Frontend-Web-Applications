@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {MatDialogContent, MatDialogRef} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatError, MatFormField, MatHint, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {LoadingService} from '../../../shared/services/loading.service';
 import {CoursesService} from '../../services/courses.service';
@@ -15,7 +15,9 @@ import {FormsModule} from '@angular/forms';
     MatFormField,
     MatLabel,
     MatInput,
-    FormsModule
+    FormsModule,
+    MatHint,
+    MatError
   ],
   templateUrl: './create-course-dialog.html',
   standalone: true,

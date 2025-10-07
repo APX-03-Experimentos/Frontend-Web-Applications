@@ -4,32 +4,43 @@
   <form #assignmentForm="ngForm">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Título</mat-label>
-      <input matInput placeholder="Título de la tarea"
-             name="title"
-             [(ngModel)]="title"
-             required>
+      <input
+        matInput
+        placeholder="Título de la tarea"
+        name="title"
+        [(ngModel)]="title"
+        required
+      />
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Descripción</mat-label>
-      <textarea matInput placeholder="Descripción de la tarea"
-                name="description"
-                [(ngModel)]="description"
-                rows="3"
-                required></textarea>
+      <textarea
+        matInput
+        placeholder="Descripción de la tarea"
+        name="description"
+        [(ngModel)]="description"
+        rows="3"
+        required
+      ></textarea>
     </mat-form-field>
 
     <h3>Archivos</h3>
-    <input type="file" (change)="onFilesSelected($event)" multiple>
+    <input type="file" (change)="onFilesSelected($event)" multiple />
     <div style="height: 30px"></div>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Fecha límite</mat-label>
-      <input matInput [matDatepicker]="picker"
-             placeholder="Selecciona una fecha"
-             name="deadline"
-             [(ngModel)]="deadline"
-             required>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="Selecciona una fecha"
+        name="deadline"
+        [(ngModel)]="deadline"
+        [min]="minDate"
+        required
+        readonly
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -38,7 +49,12 @@
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="dialogRef.close()">Cancelar</button>
-  <button mat-raised-button color="primary"
-          [disabled]="!assignmentForm.valid"
-          (click)="OnSave()">Guardar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!assignmentForm.valid"
+    (click)="OnSave()"
+  >
+    Guardar
+  </button>
 </mat-dialog-actions>
