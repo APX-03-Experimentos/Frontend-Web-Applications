@@ -9,3 +9,24 @@
   font-size: 1.25rem;
   font-weight: 600;
 }
+
+
+.toolbar {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+
+.toolbar button {
+  background: #1976d2;
+  color: #fff;
+  border: 0;
+  padding: .55rem .9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .85rem;
+}
+
+.toolbar button:hover {
+  filter: brightness(1.07);
+}

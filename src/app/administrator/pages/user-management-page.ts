@@ -1,12 +1,14 @@
-// File: src/app/administrator/pages/user-management-page.ts
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserListComponent } from '../components/user-list/user-list'; // <- ruta corregida
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { UserListComponent } from '../components/user-list/user-list';
 
 @Component({
   selector: 'app-user-management-page',
   standalone: true,
-  imports: [CommonModule, UserListComponent],
+  imports: [CommonModule, RouterModule, MatButtonModule, UserListComponent],
   templateUrl: './user-management-page.html',
   styleUrls: ['./user-management-page.css']
 })
