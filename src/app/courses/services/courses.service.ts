@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {BaseService} from '../../shared/services/base.service';
 import {Course} from '../model/course.entity';
-import {environment} from '../../../environments/environment.development';
+import {environment} from '../../../environments/environment';
 import {map, Observable, switchMap} from 'rxjs';
 import {AuthService} from '../../iam/services/auth.service';
 import {User} from '../../iam/model/user.entity';
