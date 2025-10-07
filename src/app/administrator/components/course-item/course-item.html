@@ -1,0 +1,9 @@
+<!-- src/app/administrator/components/course-item/course-item.html -->
+<mat-card class="course-item">
+  <img mat-card-image [ngSrc]="course.imageUrl" width="400" height="300" alt="course image">
+  <mat-card-title>{{course.title}}</mat-card-title>
+  <mat-card-subtitle>Id: {{course.courseId}} • Clave: {{course.key}}</mat-card-subtitle>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="onEdit()">Editar</button>
+  </mat-card-actions>
+</mat-card>

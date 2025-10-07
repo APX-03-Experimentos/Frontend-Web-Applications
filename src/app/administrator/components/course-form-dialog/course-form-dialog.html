@@ -1,0 +1,14 @@
+
+<h2 mat-dialog-title>Editar curso</h2>
+<form [formGroup]="form" (ngSubmit)="submit()" class="dialog-form">
+  <label>Título
+    <input formControlName="title">
+  </label>
+  <label>Imagen (URL)
+    <input formControlName="imageUrl">
+  </label>
+  <div class="actions">
+    <button mat-button type="button" (click)="cancel()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+  </div>
+</form>

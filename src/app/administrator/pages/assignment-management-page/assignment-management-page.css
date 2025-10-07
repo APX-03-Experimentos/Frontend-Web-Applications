@@ -1,0 +1,26 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.toolbar {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: .5rem;
+}
+.toolbar button {
+  background: #1976d2;
+  color: #fff;
+  border: 0;
+  padding: .55rem .9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .8rem;
+}
+.toolbar button:hover {
+  filter: brightness(1.07);
+}
+h1 {
+  font-size: 1.2rem;
+  margin: 0;
+}
