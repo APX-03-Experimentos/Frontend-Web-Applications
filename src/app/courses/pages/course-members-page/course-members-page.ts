@@ -19,10 +19,8 @@ export class CourseMembersPage implements OnInit {
   preCourseId: number | undefined;
 
   students: User[] = [];
-  studentsFetched = new EventEmitter();
 
   teacher: User | undefined;
-  teacherFetched = new EventEmitter();
 
   course: Course | undefined;
   courseFetched = new EventEmitter();
@@ -66,43 +64,47 @@ export class CourseMembersPage implements OnInit {
   }
 
   fetchCourseStudents() {
-    this.loadingService.LoadingDialog(this.studentsFetched)
+    let fetchEnded = new EventEmitter()
+    this.loadingService.LoadingDialog(fetchEnded)
     this.authService.GetStudentsFromCourse(this.preCourseId).subscribe({
       next: (result) => {
         this.students = result;
-        this.studentsFetched.emit();
+        fetchEnded.emit();
       },
       error: err => {
         console.log(err);
-        this.studentsFetched.emit();
+        fetchEnded.emit();
       }
     })
   }
 
   fetchCourseInfo() {
-    this.loadingService.LoadingDialog(this.courseFetched)
+    let fetchEnded = new EventEmitter()
+    this.loadingService.LoadingDialog(fetchEnded)
     this.coursesService.getById(this.preCourseId).subscribe({
       next: (result) => {
         this.course = result;
+        fetchEnded.emit();
         this.courseFetched.emit()
       },
       error: (err) => {
         console.log(err);
-        this.courseFetched.emit()
+        fetchEnded.emit()
       }
     })
   }
 
   fetchTeacherInfo() {
-    this.loadingService.LoadingDialog(this.teacherFetched)
+    let fetchEnded = new EventEmitter()
+    this.loadingService.LoadingDialog(fetchEnded)
     this.authService.getById(this.course!.teacherId).subscribe({
       next: (result) => {
         this.teacher = result;
-        this.teacherFetched.emit()
+        fetchEnded.emit()
       },
       error: (err) => {
         console.log(err);
-        this.teacherFetched.emit()
+        fetchEnded.emit()
       }
     })
   }
@@ -113,14 +115,12 @@ export class CourseMembersPage implements OnInit {
     this.coursesService.KickStudentFromCourse(this.preCourseId!, studentId).subscribe({
       next: () => {
         console.log("Kicked student with id: " + studentId)
+        this.authService.updatedUsers.emit()
+        fetchEnded.emit();
       },
       error: (err) => {
         console.log(err);
         fetchEnded.emit();
-      },
-      complete: () => {
-        fetchEnded.emit();
-        this.authService.updatedUsers.emit()
       }
     })
   }
