@@ -133,7 +133,12 @@ html, body {
 }
 
 /* Analytics Button */
-.analytics-button {
+
+app-assignment-list {
+  flex: 1;
+}
+
+.members-button {
   background-color: #007bb5;
   color: #ffffff;
   border: none;
@@ -143,14 +148,9 @@ html, body {
   margin-top: 16px;
 }
 
-.analytics-button:hover {
+.members-button:hover {
   background-color: #005f8a;
 }
-
-app-assignment-list {
-  flex: 1;
-}
-
 
 
 

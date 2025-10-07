@@ -33,6 +33,10 @@ export class CoursesService extends BaseService<Course> {
     return this.http.post<Course>(`${this.resourcePath()}/join/${key}`, {}, this.httpOptions)
   }
 
+  KickStudentFromCourse(courseId: number, studentId: number): Observable<void> {
+    return this.http.delete<void>(`${this.resourcePath()}/${courseId}/students/${studentId}`, this.httpOptions)
+  }
+
   EmitUpdatedCourses(): void
   {
     this.updatedCourses.emit();

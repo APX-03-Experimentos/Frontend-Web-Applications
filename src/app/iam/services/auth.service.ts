@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {BaseService} from '../../shared/services/base.service';
 import {User} from '../model/user.entity';
 import {environment} from '../../../environments/environment.development';
@@ -12,6 +12,8 @@ const authenticationResourceEndpoint = environment.authenticationEndpointPath;
 export class AuthService extends BaseService<User> {
 
   private readonly authenticationPath: string;
+
+  public updatedUsers: EventEmitter<any> = new EventEmitter();
 
   constructor() {
     super();
