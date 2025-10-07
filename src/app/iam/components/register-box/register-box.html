@@ -17,11 +17,6 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Correo Electrónico</mat-label>
-        <input matInput [(ngModel)]="email" name="email" placeholder="Ingresa tu correo electrónico" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
         <input matInput (ngModelChange)="passwordsMatch = true" [(ngModel)]="password" name="password" type="password" placeholder="Ingresa tu contraseña" required>
       </mat-form-field>
