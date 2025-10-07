@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Assignment, UpdateAssignmentRequest } from '../model/assignment.entity';
 import { TokenService } from '../../shared/services/token.service';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AssignmentsAdminService {
