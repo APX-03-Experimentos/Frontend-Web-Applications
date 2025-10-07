@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Inject} from '@angular/core';
+import {Component, EventEmitter, Inject, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef} from '@angular/material/dialog';
-import {Assignment} from '../../model/assignment.entity';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
@@ -8,10 +7,15 @@ import {MatButton} from '@angular/material/button';
 import {MatInput} from '@angular/material/input';
 import {AssignmentsService} from '../../services/assignments.service';
 import {LoadingService} from '../../../shared/services/loading.service';
-import {ActivatedRoute} from '@angular/router';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 @Component({
   selector: 'app-create-assignment-dialog',
+  providers: [provideNativeDateAdapter()],
   imports: [
     MatDialogContent,
     MatFormField,
@@ -19,21 +23,27 @@ import {ActivatedRoute} from '@angular/router';
     MatDatepickerInput,
     MatDatepickerToggle,
     MatDatepicker,
+    MatNativeDateModule,
     MatDialogActions,
     MatButton,
     MatInput,
-    MatLabel
+    MatLabel,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
   ],
   templateUrl: './create-assignment-dialog.html',
   standalone: true,
-  styleUrl: './create-assignment-dialog.css'
+  styleUrl: './create-assignment-dialog.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateAssignmentDialog {
 
   selectedFiles: File[] = [];
   title: string = '';
   description: string = '';
-  deadline: Date = new Date();
+  deadline!: Date;
+  minDate: Date = new Date(new Date().setDate(new Date().getDate() + 1));
 
 
   constructor(
@@ -41,10 +51,11 @@ export class CreateAssignmentDialog {
     public dialogRef: MatDialogRef<CreateAssignmentDialog>,
     private assignmentService: AssignmentsService,
     private loadingService: LoadingService,
-  ) {}
+  ) {
+    this.deadline = this.minDate
+  }
 
   OnSave(): void {
-
     let fetchEnded = new EventEmitter();
     this.loadingService.LoadingDialog(fetchEnded);
     this.assignmentService.CreateAssignment({
