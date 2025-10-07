@@ -22,6 +22,7 @@
           <p>Este curso está diseñado para ayudarte a alcanzar tus metas académicas.</p>
         </div>
         @if (userRole === "ROLE_TEACHER") {
+          <button mat-raised-button class="members-button" [routerLink]="['/course',this.preCourseId,'members']">Ver integrantes del curso</button>
           <button mat-raised-button class="analytics-button" [routerLink]="['/course',this.preCourseId,'analytics']">Ver desempeño del curso</button>
         } @else if (userRole === "ROLE_STUDENT") {
 

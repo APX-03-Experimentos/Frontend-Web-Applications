@@ -1,1 +1,64 @@
-<p>course-members-page works!</p>
+<div class="course-members-container">
+
+  <!-- Información del curso -->
+  <div class="course-header">
+    <h1>{{ course?.title }}</h1>
+  </div>
+
+  <!-- Tabla del profesor -->
+  <section class="teacher-section">
+    <h2>Profesor</h2>
+    <table class="members-table">
+      <thead>
+      <tr>
+        <th>Nombre de Usuario</th>
+      </tr>
+      </thead>
+      <tbody>
+        @if (teacher)
+        {
+          <tr>
+            <td>{{ teacher.userName }}</td>
+          </tr>
+        }
+        @if (!teacher) {
+          <tr>
+            <td class="placeholder">Cargando profesor...</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Tabla de estudiantes -->
+  <section class="students-section">
+    <h2>Estudiantes</h2>
+    <table class="members-table">
+      <thead>
+      <tr>
+        <th>Nombre de Usuario</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+
+        @for (student of students; track student.id)
+        {
+          <tr>
+            <td>{{ student.userName }}</td>
+            <td>
+              <button (click)="kickStudent(student.id)" class="kick-button">Expulsar</button>
+            </td>
+          </tr>
+        }
+        @if (students.length === 0)
+        {
+          <tr>
+            <td colspan="2" class="placeholder">No hay estudiantes registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+</div>
