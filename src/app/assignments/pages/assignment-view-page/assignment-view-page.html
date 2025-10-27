@@ -15,10 +15,19 @@
       </div>
       @if (assignment?.fileUrls?.length)
       {
-        <button mat-flat-button color="primary" (click)="DownloadAllFilesAsZip()">
-          <mat-icon>archive</mat-icon>
-          Descargar todos los archivos
-        </button>
+        <div class="assignment-files-container">
+          <h3>Archivos adjuntos:</h3>
+          <ul class="assignment-files-list">
+            @for (fileUrl of assignment?.fileUrls; track fileUrl) {
+              <li class="assignment-file-item">
+                <mat-icon>attach_file</mat-icon>
+                <a [href]="fileUrl" target="_blank" download>
+                  {{ GetFileName(fileUrl) }}
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
       }
     </div>
   </div>
