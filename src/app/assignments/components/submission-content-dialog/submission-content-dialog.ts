@@ -116,4 +116,13 @@ export class SubmissionContentDialog implements OnInit {
 
     downloadEnded.emit()
   }
+
+  GetFileName(url: string): string {
+    try {
+      return decodeURIComponent(url.split('/').pop() || 'archivo');
+    } catch {
+      return 'archivo';
+    }
+  }
+
 }
