@@ -9,7 +9,7 @@ import {MatIcon} from '@angular/material/icon';
 import {SubmissionList} from '../../components/submission-list/submission-list';
 import {User} from '../../../iam/model/user.entity';
 import {AuthService} from '../../../iam/services/auth.service';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {SubmissionCreateDialog} from '../../components/submission-create-dialog/submission-create-dialog';
 import JSZip from 'jszip';
@@ -21,7 +21,8 @@ import {saveAs} from 'file-saver';
     NgOptimizedImage,
     MatIcon,
     SubmissionList,
-    MatButton
+    MatButton,
+    MatIconButton
   ],
   templateUrl: './assignment-view-page.html',
   standalone: true,
