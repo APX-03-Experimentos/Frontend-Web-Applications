@@ -13,6 +13,7 @@ export class SubmissionsService extends BaseService<Submission> {
 
   constructor() {
     super();
+    this.serverBaseUrl = `${environment.assignmentsServiceBaseUrl}`;
     this.resourceEndpoint = environment.submissionsEndpointPath;
   }
 

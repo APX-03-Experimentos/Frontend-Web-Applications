@@ -15,6 +15,7 @@ export class CoursesService extends BaseService<Course> {
 
   constructor(private authService: AuthService) {
     super();
+    this.serverBaseUrl = `${environment.coursesServiceBaseUrl}`;
     this.resourceEndpoint = environment.coursesEndpointPath;
   }
 
