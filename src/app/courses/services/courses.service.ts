@@ -30,7 +30,7 @@ export class CoursesService extends BaseService<Course> {
   }
 
   JoinCourse(key: string): Observable<Course> {
-    return this.http.post<Course>(`${this.resourcePath()}/join/${key}`, {}, this.httpOptions)
+    return this.http.get<Course>(`${this.resourcePath()}/join/${key}`, this.httpOptions)
   }
 
   KickStudentFromCourse(courseId: number, studentId: number): Observable<void> {
