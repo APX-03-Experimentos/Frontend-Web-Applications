@@ -9,12 +9,10 @@
 
 :host {
   display: block;
-  --footer-height: 45px;
 }
 
 .page-bg {
-  min-height: calc(100dvh - var(--footer-height));
-  padding-bottom: var(--footer-height);
+  min-height: 100dvh;
   box-sizing: border-box;
   display: flex;
   align-items: center;
