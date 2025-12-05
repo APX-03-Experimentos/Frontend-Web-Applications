@@ -18,7 +18,7 @@
         @if (teacher)
         {
           <tr>
-            <td>{{ teacher.userName }}</td>
+            <td>{{ teacher.username }}</td>
           </tr>
         }
         @if (!teacher) {
@@ -45,7 +45,7 @@
         @for (student of students; track student.id)
         {
           <tr>
-            <td>{{ student.userName }}</td>
+            <td>{{ student.username }}</td>
             <td>
               <button (click)="kickStudent(student.id)" class="kick-button">Expulsar</button>
             </td>
