@@ -29,14 +29,14 @@ export class AuthService extends BaseService<User> {
 
   login(username: string, password: string): Observable<User> {
     return this.http.post<User>(`${this.serverBaseUrl}${this.authenticationPath}/sign-in`, {
-      "userName": username,
+      "username": username,
       "password": password
     }, this.httpOptions);
   }
 
   signup(username: string, password: string, role: string): Observable<any> {
     return this.http.post<any>(`${this.serverBaseUrl}${this.authenticationPath}/sign-up`, {
-      "userName": username,
+      "username": username,
       "password": password,
       "roles": [
         role
