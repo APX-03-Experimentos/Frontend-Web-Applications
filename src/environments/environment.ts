@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverBaseUrl: "http://localhost:8080/api/v1",
+  serverBaseUrl: "https://backend-web-services-microservices-xtnu.onrender.com",
   authenticationEndpointPath: '/authentication',
   usersEndpointPath: '/users',
   coursesEndpointPath: '/courses',
