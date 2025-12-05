@@ -1,31 +1,63 @@
 <div class="course-view-container">
   <div class="panel-container">
-    <div class="panel-title"><h1>Panel de Tareas</h1></div>
-    <div class="center-horizontally">
+    <div class="panel-title">
+      <h1>
+        <mat-icon class="title-icon">assignment</mat-icon>
+        Panel de Tareas
+      </h1>
+    </div>
+
+    <div class="panel-actions">
       @if (userRole === "ROLE_TEACHER") {
-        <button mat-raised-button (click)="OpenCreateDialog()">Agregar Tarea</button>
-      } @else {
-        <h1>Estudiante</h1>
+        <button mat-raised-button class="btn-primary" (click)="OpenCreateDialog()">
+          <mat-icon>add</mat-icon>
+          Agregar Tarea
+        </button>
+      }
+      @else {
+        <h2 class="student-label">Estudiante</h2>
       }
     </div>
   </div>
+
   <div class="content-container">
     <div class="left-panel">
       <app-assignment-list [courseId]="preCourseId"></app-assignment-list>
     </div>
-    <div class="right-panel">
-      <div class="right-panel-content-container">
-        <div class="info-section-right-panel">
-          <h1>Información del curso</h1>
-          <h2>{{course?.title}}</h2>
-          <h2>Profesor: {{teacher?.userName}}</h2>
-          <p>Este curso está diseñado para ayudarte a alcanzar tus metas académicas.</p>
-        </div>
-        @if (userRole === "ROLE_TEACHER") {
-          <button mat-raised-button class="members-button" [routerLink]="['/course',this.preCourseId,'members']">Ver integrantes del curso</button>
-          <button mat-raised-button class="analytics-button" [routerLink]="['/course',this.preCourseId,'analytics']">Ver desempeño del curso</button>
-        } @else if (userRole === "ROLE_STUDENT") {
 
+    <div class="right-panel">
+      <div class="right-panel-content">
+        <div class="course-info">
+          <h1 class="info-title">
+            Información del Curso
+          </h1>
+
+          <h2 class="course-name">{{ course?.title }}</h2>
+
+          <h2 class="teacher-name">
+            <mat-icon class="teacher-icon">person_4</mat-icon>
+            Profesor: {{ teacher?.userName }}
+          </h2>
+
+          <p class="course-description">
+            Este curso está diseñado para ayudarte a alcanzar tus metas académicas.
+          </p>
+        </div>
+
+        @if (userRole === "ROLE_TEACHER") {
+          <div class="panel-actions-vertical">
+            <button mat-raised-button class="btn-secondary"
+                    [routerLink]="['/course', preCourseId, 'members']">
+              <mat-icon>group</mat-icon>
+              Ver Miembros
+            </button>
+
+            <button mat-raised-button class="btn-secondary"
+                    [routerLink]="['/course', preCourseId, 'analytics']">
+              <mat-icon>analytics</mat-icon>
+              Ver Desempeño
+            </button>
+          </div>
         }
       </div>
     </div>

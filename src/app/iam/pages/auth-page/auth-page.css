@@ -1,36 +1,36 @@
 .main {
   display: flex;
-  flex-direction: column; /* stack items vertically */
-  align-items: center;    /* center items horizontally */
-  justify-content: center;/* center vertically if parent has height */
-  min-height: unset;      /* optional: make it full height to center on page */
-  text-align: center;     /* also centers text content */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  text-align: center;
 }
 
 :host {
   display: block;
+  --footer-height: 45px;
 }
 
 .page-bg {
-  min-height: 100dvh;
-  padding: 32px;
+  min-height: calc(100dvh - var(--footer-height));
+  padding-bottom: var(--footer-height);
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  /* Patrones celestes sutiles */
+  justify-content: center;
   background:
     radial-gradient(circle at 25px 25px, rgba(56,149,211,.12) 2px, transparent 3px) 0 0/50px 50px,
     radial-gradient(circle at 0 0, rgba(56,149,211,.06) 2px, transparent 3px) 25px 25px/50px 50px,
-    linear-gradient(180deg, #f8fbff, #eef6ff 60%, #e9f3ff);
+    var(--custom-bg-color);
 }
 
 .card {
   max-width: 420px;
   width: 88%;
-  margin: 0 auto;
   padding: 0px 8px;
-  background: rgba(255,255,255,.86);
-  border: 1px solid rgba(56,149,211,.15);
+  background: var(--custom-card-color);
+  border: 1px solid var(--custom-border-color);
   border-radius: 16px;
   box-shadow:
     0 10px 30px rgba(56,149,211,.08),
@@ -46,13 +46,13 @@ img {
 
 h2 {
   margin: 0 0 4px;
-  color: #0f3257;
+  color: var(--custom-title-color);
   font-weight: 700;
 }
 
 h4 {
   margin: 0 0 10px;
-  color: #3e6b8f;
+  color: var(--custom-text-color);
   font-weight: 500;
 }
 
