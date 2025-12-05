@@ -1,5 +1,5 @@
 // src/app/iam/components/login-box/login-box.ts
-import {Component} from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 import {MatCard, MatCardContent} from '@angular/material/card';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -38,7 +38,8 @@ export class LoginBox {
   ) {}
 
   LogIn(): void {
-    this.loadingService.startLoadingDialog();
+    const stopLoading = new EventEmitter();
+    this.loadingService.LoadingDialog(stopLoading);
     this.authService.login(this.username, this.password).subscribe({
       next: result => {
         this.tokenService.setToken(result.token);
@@ -51,19 +52,20 @@ export class LoginBox {
               this.router.navigate(['courses']);
             }
           },
-          error: () => this.loadingService.stopLoadingDialog(),
-          complete: () => this.loadingService.stopLoadingDialog()
+          error: () => stopLoading.emit(),
+          complete: () => stopLoading.emit()
         });
+        this.authService.setSignedIn(true);
       },
       error: err => {
         console.log(err);
         if (err.status === 500 && this.username !== "" && this.password !== "") {
           this.invalidCredentials = true;
         }
-        this.loadingService.stopLoadingDialog();
+        stopLoading.emit()
       },
       complete: () => {
-        this.loadingService.stopLoadingDialog();
+        stopLoading.emit()
         this.username = "";
         this.password = "";
       }
