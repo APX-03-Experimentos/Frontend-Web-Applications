@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 import {MatCard, MatCardContent} from '@angular/material/card';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -41,22 +41,24 @@ export class RegisterBox {
 
   SignUp(): void {
     if (this.password === this.confirmPassword) {
-      this.loadingService.startLoadingDialog();
+      const stopLoading = new EventEmitter();
+      this.loadingService.LoadingDialog(stopLoading);
       this.authService.signup(this.username, this.password, this.userType).subscribe({
         next: account => {
           this.authService.login(account.userName, this.password).subscribe({
             next: result => {
               this.tokenService.setToken(result.token);
               this.router.navigate(['courses']).then();
+              this.authService.setSignedIn(true);
             }
           })
         },
         error: err => {
           console.error("Error en registro:", err);
-          this.loadingService.stopLoadingDialog();
+          stopLoading.emit()
         },
         complete: () => {
-          this.loadingService.stopLoadingDialog();
+          stopLoading.emit()
         }
       })
     } else {

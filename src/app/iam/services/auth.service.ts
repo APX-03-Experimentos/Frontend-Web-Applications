@@ -2,7 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {BaseService} from '../../shared/services/base.service';
 import {User} from '../model/user.entity';
 import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 const usersResourceEndpoint = environment.usersEndpointPath;
 const authenticationResourceEndpoint = environment.authenticationEndpointPath;
@@ -15,10 +15,16 @@ export class AuthService extends BaseService<User> {
 
   public updatedUsers: EventEmitter<any> = new EventEmitter();
 
+  private signedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor() {
     super();
     this.resourceEndpoint = usersResourceEndpoint;
     this.authenticationPath = authenticationResourceEndpoint;
+  }
+
+  setSignedIn(value: boolean): void {
+    this.signedIn.next(value);
   }
 
   login(username: string, password: string): Observable<User> {
@@ -44,5 +50,9 @@ export class AuthService extends BaseService<User> {
 
   GetStudentsFromCourse(courseId: number | undefined): Observable<User[]> {
     return this.http.get<User[]>(`${this.resourcePath()}/group/${courseId}`, this.httpOptions);
+  }
+
+  get isSignedIn() {
+    return this.signedIn.asObservable();
   }
 }

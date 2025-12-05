@@ -1,7 +1,17 @@
-<div class="submission-list-container">
-  @for (submission of submissions; track submission.id)
-  {
-    <app-submission-item [submission]="submission"></app-submission-item>
+<div class="submission-list-root">
+  @if (submissions.length === 0) {
+    <div class="empty-submission">
+      <img src="/assets/imagen_1.png" alt="sin entregas" class="empty-img" />
+      <div class="empty-text">
+        <h3>No hay entregas</h3>
+        <p>Aún no hay entregas disponibles</p>
+      </div>
+    </div>
+  } @else {
+    <div class="submissions-grid">
+      @for (submission of submissions; track submission.id) {
+        <app-submission-item [submission]="submission"></app-submission-item>
+      }
+    </div>
   }
 </div>
-

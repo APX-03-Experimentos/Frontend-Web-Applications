@@ -10,18 +10,19 @@ import { UserManagementPageComponent } from './administrator/pages/user-manageme
 import { CourseManagementPage } from './administrator/pages/course-management-page/course-management-page';
 
 import { AssignmentManagementPageComponent } from './administrator/pages/assignment-management-page/assignment-management-page';
+import {authenticationGuard} from './iam/services/authentication.guard';
 export const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
   { path: 'auth', component: AuthPage },
-  { path: 'courses', component: CoursesPage },
-  { path: 'course/:courseId', component: CourseViewPage },
-  { path: 'course/:courseId/members', component: CourseMembersPage },
-  { path: 'course/:courseId/analytics', component: CourseAnalyticsPage },
-  { path: 'assignment/:assignmentId', component: AssignmentViewPage },
+  { path: 'courses', component: CoursesPage, canActivate: [authenticationGuard] },
+  { path: 'course/:courseId', component: CourseViewPage, canActivate: [authenticationGuard] },
+  { path: 'course/:courseId/members', component: CourseMembersPage, canActivate: [authenticationGuard] },
+  { path: 'course/:courseId/analytics', component: CourseAnalyticsPage, canActivate: [authenticationGuard] },
+  { path: 'assignment/:assignmentId', component: AssignmentViewPage, canActivate: [authenticationGuard] },
 
-  { path: 'admin/users', component: UserManagementPageComponent },
-  { path: 'admin/courses', component: CourseManagementPage },
-  { path: 'admin/assignments', component: AssignmentManagementPageComponent },
+  { path: 'admin/users', component: UserManagementPageComponent, canActivate: [authenticationGuard] },
+  { path: 'admin/courses', component: CourseManagementPage, canActivate: [authenticationGuard] },
+  { path: 'admin/assignments', component: AssignmentManagementPageComponent, canActivate: [authenticationGuard] },
 
   { path: 'no-access', component: NoAccessPageComponent },
   { path: '**', redirectTo: '/auth' }

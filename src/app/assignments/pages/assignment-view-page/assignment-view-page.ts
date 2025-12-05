@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
 import {Assignment} from '../../model/assignment.entity';
 import {TokenService} from '../../../shared/services/token.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -9,11 +9,12 @@ import {MatIcon} from '@angular/material/icon';
 import {SubmissionList} from '../../components/submission-list/submission-list';
 import {User} from '../../../iam/model/user.entity';
 import {AuthService} from '../../../iam/services/auth.service';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {SubmissionCreateDialog} from '../../components/submission-create-dialog/submission-create-dialog';
 import JSZip from 'jszip';
 import {saveAs} from 'file-saver';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-assignment-view-page',
@@ -21,13 +22,15 @@ import {saveAs} from 'file-saver';
     NgOptimizedImage,
     MatIcon,
     SubmissionList,
-    MatButton
+    MatButton,
+    MatIconButton
   ],
   templateUrl: './assignment-view-page.html',
   standalone: true,
   styleUrl: './assignment-view-page.css'
 })
 export class AssignmentViewPage implements OnInit {
+  @ViewChild('assignmentFileInput') assignmentFileInput!: ElementRef<HTMLInputElement>;
 
   preAssignmentId: number = 0;
 
@@ -56,6 +59,9 @@ export class AssignmentViewPage implements OnInit {
 
     this.FetchUserRole();
     this.FetchAssignmentInfo();
+    this.assignmentService.assignmentsUpdated.subscribe(() => {
+      this.FetchAssignmentInfo();
+    });
   }
   FetchAssignmentInfo() {
     let fetchEnded = new EventEmitter();
@@ -134,5 +140,70 @@ export class AssignmentViewPage implements OnInit {
     saveAs(content, "archivos.zip");
 
     downloadEnded.emit()
+  }
+
+  GetFileName(url: string): string {
+    try {
+      return decodeURIComponent(url.split('/').pop() || 'archivo');
+    } catch {
+      return 'archivo';
+    }
+  }
+
+  OpenFilePickerForAssignmentFiles(): void {
+    if (!this.assignment) {
+      console.warn('Assignment not loaded yet.');
+      return;
+    }
+    this.assignmentFileInput.nativeElement.click();
+  }
+
+  // --- Handler cuando el usuario selecciona archivos ---
+  OnAssignmentFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0 || !this.assignment) {
+      // limpiar input por si acaso
+      if (input) input.value = '';
+      return;
+    }
+
+    const files = Array.from(input.files);
+
+    let uploadEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(uploadEnded);
+
+    this.assignmentService.AddFilesToAssignment(this.assignment.id, files)
+      .pipe(finalize(() => uploadEnded.emit()))
+      .subscribe({
+        next: () => {
+          this.assignment!.fileUrls = [
+            ...(this.assignment!.fileUrls || []),
+          ];
+          this.assignmentService.EmitUpdate();
+          this.assignmentFileInput.nativeElement.value = '';
+        },
+        error: (err) => {
+          console.error('Error subiendo archivos de tarea:', err);
+          this.assignmentFileInput.nativeElement.value = '';
+        }
+      });
+  }
+
+  RemoveFile(fileUrl: string): void {
+    if (!this.assignment) return;
+
+    let deleteEnded = new EventEmitter();
+    this.loadingService.LoadingDialog(deleteEnded);
+
+    this.assignmentService.RemoveFileFromAssignment(this.assignment.id, fileUrl)
+      .pipe(finalize(() => deleteEnded.emit()))
+      .subscribe({
+        next: () => {
+          this.assignment!.fileUrls = this.assignment!.fileUrls?.filter(url => url !== fileUrl);
+        },
+        error: (err: any) => {
+          console.error('Error al eliminar el archivo:', err);
+        }
+      });
   }
 }

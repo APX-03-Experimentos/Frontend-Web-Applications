@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverBaseUrl: "https://backend-web-services-1.onrender.com/api/v1",
+  serverBaseUrl: "http://localhost:8080/api/v1",
   authenticationEndpointPath: '/authentication',
   usersEndpointPath: '/users',
   coursesEndpointPath: '/courses',

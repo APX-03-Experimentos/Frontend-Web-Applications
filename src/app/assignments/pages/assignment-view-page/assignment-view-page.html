@@ -1,38 +1,86 @@
-<div class="assignment-base-column">
-  <div class="assignment-info-container">
-    <img
-      ngSrc="https://material.angular.dev/assets/img/examples/shiba2.jpg"
-      priority
-      alt="Photo of a Shiba Inu"
-      width="200"
-      height="200"
-    >
-    <div class="assignment-info-column">
-      <h1>{{assignment?.title}}</h1>
-      <p>{{assignment?.description}}</p>
-      <div class="assignment-deadline-container">
-        <mat-icon>schedule</mat-icon><p>Vence el: {{GetFormattedDate()}}</p>
-      </div>
-      @if (assignment?.fileUrls?.length)
-      {
-        <button mat-flat-button color="primary" (click)="DownloadAllFilesAsZip()">
-          <mat-icon>archive</mat-icon>
-          Descargar todos los archivos
+
+<div class="assignment-view-root">
+  <header class="assignment-header">
+    <div class="header-left">
+      <h1 class="assignment-title">{{ assignment?.title }}</h1>
+      <p class="assignment-subtitle">{{ assignment?.description }}</p>
+    </div>
+
+    <div class="header-actions">
+      @if (userRole === "ROLE_STUDENT") {
+        <button mat-flat-button class="btn-primary" (click)="OpenCreateSubmissionDialog()">
+          <mat-icon>upload</mat-icon>
+          Añadir Entrega
         </button>
+      } @else if (userRole === "ROLE_TEACHER") {
+        <button mat-flat-button color="primary" (click)="OpenFilePickerForAssignmentFiles()">
+          <mat-icon>attach_file</mat-icon>
+          Subir Archivo
+        </button>
+
+        <input
+          #assignmentFileInput
+          type="file"
+          multiple
+          hidden
+          (change)="OnAssignmentFilesSelected($event)"
+        >
       }
     </div>
-  </div>
-  <div class="submissions-add-bar">
+  </header>
+
+
+  <main class="assignment-main">
+    <section class="assignment-info-panel">
+      <div class="deadline-row">
+        <mat-icon>schedule</mat-icon>
+        <div class="deadline-text">
+          <p class="label">Vence el:</p>
+          <p class="date">{{ GetFormattedDate() }}</p>
+        </div>
+      </div>
+
+      @if (assignment?.fileUrls?.length)
+      {
+        <div class="files-panel">
+          <h3 class="files-title">Archivos Adjuntos</h3>
+
+          <ul class="files-list">
+            @for (fileUrl of assignment?.fileUrls; track fileUrl) {
+              <li class="file-item">
+                <div class="file-left">
+                  <mat-icon class="file-icon">attach_file</mat-icon>
+                  <a class="file-link" [href]="fileUrl" target="_blank" download>
+                    {{ GetFileName(fileUrl) }}
+                  </a>
+                </div>
+
+                <div class="file-actions">
+                  @if (userRole === "ROLE_TEACHER") {
+                    <button mat-icon-button class="file-delete" (click)="RemoveFile(fileUrl)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </section>
+  </main>
+
+
+  <section class="submissions-heading">
     @if (userRole === "ROLE_STUDENT") {
-      <h1 class="submissions-indicator">Tus entregas: </h1>
-      <button mat-flat-button (click)="OpenCreateSubmissionDialog()">Añadir Entrega</button>
+      <h2 class="submissions-title">Tus entregas</h2>
     } @else if (userRole === "ROLE_TEACHER") {
-      <h1 class="submissions-indicator">Entregas: </h1>
+      <h2 class="submissions-title">Entregas</h2>
     }
-  </div>
+  </section>
 
+  <section class="submissions-list-area">
+    <app-submission-list [assignmentId]="preAssignmentId"></app-submission-list>
+  </section>
 
-</div>
-<div class="submissions-list-container">
-  <app-submission-list [assignmentId]="preAssignmentId"></app-submission-list>
 </div>

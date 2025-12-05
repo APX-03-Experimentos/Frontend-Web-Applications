@@ -31,15 +31,16 @@ export class AuthPage implements OnInit {
   ngOnInit() {
     if (this.tokenService.isLoggedIn) {
       this.authService.fetchLoggedUser().subscribe({
-        next: (user: any) => { // Tipado explícito
+        next: (user: any) => {
+          this.authService.setSignedIn(true);
           if (user.roles && user.roles.includes('ROLE_ADMIN')) {
             this.router.navigate(['/admin/users']);
           } else {
             this.router.navigate(['/courses']);
           }
         },
-        error: () => {
-          this.router.navigate(['/courses']);
+        error: (e) => {
+          console.error(e);
         }
       });
     }
