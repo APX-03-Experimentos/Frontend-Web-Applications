@@ -281,7 +281,7 @@ export class CourseAnalyticsPage implements OnInit {
     };
 
     this.gradedCount = this.submissions.filter(s => s.status === 'GRADED').length;
-    this.notGradedCount = this.submissions.filter(s => s.status === 'NOT GRADED').length;
+    this.notGradedCount = this.submissions.filter(s => s.status === 'NOT_GRADED').length;
     this.doughnutChartData = {
       ...this.doughnutChartData,
       datasets: [
