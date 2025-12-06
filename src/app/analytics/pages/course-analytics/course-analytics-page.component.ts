@@ -1,18 +1,18 @@
-import { Component, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CoursesService } from '../../../courses/services/courses.service';
-import { AuthService } from '../../../iam/services/auth.service';
-import { AssignmentsService } from '../../../assignments/services/assignments.service';
-import { SubmissionsService } from '../../../assignments/services/submissions.service';
-import { ActivatedRoute } from '@angular/router';
-import { LoadingService } from '../../../shared/services/loading.service';
-import { Course } from '../../../courses/model/course.entity';
-import { User } from '../../../iam/model/user.entity';
-import { Assignment } from '../../../assignments/model/assignment.entity';
-import { Submission } from '../../../assignments/model/submission.entity';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
-import { CommonModule } from '@angular/common';
-import { forkJoin } from 'rxjs';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
+import {CoursesService} from '../../../courses/services/courses.service';
+import {AuthService} from '../../../iam/services/auth.service';
+import {AssignmentsService} from '../../../assignments/services/assignments.service';
+import {SubmissionsService} from '../../../assignments/services/submissions.service';
+import {ActivatedRoute} from '@angular/router';
+import {LoadingService} from '../../../shared/services/loading.service';
+import {Course} from '../../../courses/model/course.entity';
+import {User} from '../../../iam/model/user.entity';
+import {Assignment} from '../../../assignments/model/assignment.entity';
+import {Submission} from '../../../assignments/model/submission.entity';
+import {ChartConfiguration, ChartData, ChartEvent, ChartType} from 'chart.js';
+import {BaseChartDirective} from 'ng2-charts';
+import {CommonModule} from '@angular/common';
+import {forkJoin} from 'rxjs';
 
 @Component({
   selector: 'app-course-analytics',
@@ -33,7 +33,6 @@ export class CourseAnalyticsPage implements OnInit {
   gradedCount = 0;
   notGradedCount = 0;
 
-  // Nuevo chart para distribución de calificaciones
   public scoreDistributionLabels: string[] = ['0-4', '5-9', '10-14', '15-20'];
   public scoreDistributionData: number[] = [0, 0, 0, 0];
 
@@ -153,7 +152,6 @@ export class CourseAnalyticsPage implements OnInit {
 
   public doughnutChartType: ChartType = 'doughnut';
 
-  // Chart para distribución de calificaciones
   public distributionChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     scales: {
@@ -194,7 +192,7 @@ export class CourseAnalyticsPage implements OnInit {
     private submissionsService: SubmissionsService,
     private loadingService: LoadingService,
     private route: ActivatedRoute,
-    private cdRef: ChangeDetectorRef // Inyectar ChangeDetectorRef
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -229,12 +227,33 @@ export class CourseAnalyticsPage implements OnInit {
     });
   }
 
+  setAverageScores(): void {
+    this.averageScores = [];
+
+    if (this.assignments.length === 0 || this.submissions.length === 0) {
+      return;
+    }
+
+    this.averageScores = this.assignments.map(assignment => {
+      const gradedSubmissions = this.submissions.filter(s =>
+        s.assignmentId === assignment.id && s.status === 'GRADED'
+      );
+
+      if (gradedSubmissions.length === 0) return 0;
+
+      const totalScore = gradedSubmissions.reduce((sum, submission) => sum + submission.score, 0);
+
+      return Math.round((totalScore / gradedSubmissions.length) * 10) / 10;
+    });
+  }
+
   prepareChartData(): void {
     if (this.assignments.length === 0 || this.submissions.length === 0 || this.students.length === 0) {
       return;
     }
 
-    // Actualizar datos del chart de porcentaje de entregas
+    this.setAverageScores();
+
     this.barChartData = {
       ...this.barChartData,
       labels: this.assignments.map(a => a.title),
@@ -250,28 +269,17 @@ export class CourseAnalyticsPage implements OnInit {
       ]
     };
 
-    // Actualizar datos del chart radar
     this.radarChartData = {
       ...this.radarChartData,
       labels: this.assignments.map(a => a.title),
       datasets: [
         {
           ...this.radarChartData.datasets[0],
-          data: this.assignments.map(assignment => {
-            const gradedSubmissions = this.submissions.filter(s =>
-              s.assignmentId === assignment.id && s.status === 'GRADED'
-            );
-
-            if (gradedSubmissions.length === 0) return 0;
-
-            const totalScore = gradedSubmissions.reduce((sum, submission) => sum + submission.score, 0);
-            return Math.round((totalScore / gradedSubmissions.length) * 10) / 10;
-          })
+          data: this.averageScores
         }
       ]
     };
 
-    // Actualizar datos del chart doughnut
     this.gradedCount = this.submissions.filter(s => s.status === 'GRADED').length;
     this.notGradedCount = this.submissions.filter(s => s.status === 'NOT GRADED').length;
     this.doughnutChartData = {
@@ -284,18 +292,14 @@ export class CourseAnalyticsPage implements OnInit {
       ]
     };
 
-    // Preparar datos para el chart de distribución de calificaciones
     this.prepareScoreDistributionData();
 
-    // Forzar la detección de cambios
     this.cdRef.detectChanges();
   }
 
   prepareScoreDistributionData(): void {
-    // Reiniciar datos
     this.scoreDistributionData = [0, 0, 0, 0];
 
-    // Contar estudiantes por rango de calificación
     this.submissions
       .filter(s => s.status === 'GRADED')
       .forEach(submission => {
@@ -310,7 +314,6 @@ export class CourseAnalyticsPage implements OnInit {
         }
       });
 
-    // Actualizar chart de distribución
     this.distributionChartData = {
       ...this.distributionChartData,
       datasets: [

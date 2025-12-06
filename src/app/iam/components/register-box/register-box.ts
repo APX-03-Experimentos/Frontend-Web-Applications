@@ -31,7 +31,6 @@ export class RegisterBox {
 
   userType: string = "ROLE_STUDENT";
   username: string = "";
-  email: string = "";
   password: string = "";
   confirmPassword: string = "";
 
@@ -39,19 +38,21 @@ export class RegisterBox {
 
   constructor(private authService: AuthService, private tokenService: TokenService, private loadingService: LoadingService, private router: Router) {}
 
+  private clearForm(): void {
+    this.username = "";
+    this.password = "";
+    this.confirmPassword = "";
+    this.passwordsMatch = true;
+  }
+
   SignUp(): void {
     if (this.password === this.confirmPassword) {
       const stopLoading = new EventEmitter();
       this.loadingService.LoadingDialog(stopLoading);
       this.authService.signup(this.username, this.password, this.userType).subscribe({
         next: account => {
-          this.authService.login(account.userName, this.password).subscribe({
-            next: result => {
-              this.tokenService.setToken(result.token);
-              this.router.navigate(['courses']).then();
-              this.authService.setSignedIn(true);
-            }
-          })
+          alert("Registro exitoso!")
+          this.clearForm();
         },
         error: err => {
           console.error("Error en registro:", err);

@@ -57,6 +57,7 @@ export class SubmissionCreateDialog {
           this.submissionsService.AddFilesToSubmission(result.id, this.selectedFiles).subscribe({
             next: (array) => {
               console.log(`Uploaded successfully: ${array}`);
+              this.submissionsService.EmitUpdate()
             },
             error: (err) => {
               console.log(err)
